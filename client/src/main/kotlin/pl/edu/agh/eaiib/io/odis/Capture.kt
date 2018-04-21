@@ -47,8 +47,8 @@ class Capture(private val captor: JpcapCaptor) : AutoCloseable {
             return Capture(captor)
         }
 
-        fun fromInterface(iface: NetworkInterface): Capture {
-            val captor = JpcapCaptor.openDevice(iface, Integer.MAX_VALUE, true, 1000)
+        fun fromInterface(networkInterface: NetworkInterface): Capture {
+            val captor = JpcapCaptor.openDevice(networkInterface, Integer.MAX_VALUE, true, 1000)
             return Capture(captor)
         }
     }
