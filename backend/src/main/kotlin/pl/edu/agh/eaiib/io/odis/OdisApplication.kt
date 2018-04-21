@@ -1,4 +1,4 @@
-package pl.edu.agh.eaiib.odis.odis
+package pl.edu.agh.eaiib.io.odis
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication

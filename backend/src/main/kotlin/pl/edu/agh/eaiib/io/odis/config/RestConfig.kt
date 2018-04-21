@@ -1,4 +1,4 @@
-package pl.edu.agh.eaiib.odis.odis.config
+package pl.edu.agh.eaiib.io.odis.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

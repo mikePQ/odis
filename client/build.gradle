@@ -1,0 +1,43 @@
+buildscript {
+    ext {
+        kotlin_version = '1.2.31'
+        junit_platform_version = '1.1.0'
+        junit_jupiter_version = '5.1.0'
+    }
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+        classpath "org.junit.platform:junit-platform-gradle-plugin:$junit_platform_version"
+    }
+}
+
+group 'pl.edu.agh.eaiib.io'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'java'
+apply plugin: 'kotlin'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile fileTree(dir: 'libs', include: '*.jar')
+
+    testCompile "org.junit.jupiter:junit-jupiter-api:$junit_jupiter_version"
+    testRuntime "org.junit.jupiter:junit-jupiter-engine:$junit_jupiter_version"
+}
+
+compileKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
+compileTestKotlin {
+    kotlinOptions.jvmTarget = "1.8"
+}
