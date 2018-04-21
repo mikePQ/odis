@@ -3,6 +3,7 @@ buildscript {
         kotlin_version = '1.2.31'
         junit_platform_version = '1.1.0'
         junit_jupiter_version = '5.1.0'
+        retrofit_version = '2.4.0'
     }
 
     repositories {
@@ -29,6 +30,7 @@ repositories {
 
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
+    compile "com.squareup.retrofit2:retrofit:$retrofit_version"
     compile fileTree(dir: 'libs', include: '*.jar')
 
     testCompile "org.junit.jupiter:junit-jupiter-api:$junit_jupiter_version"

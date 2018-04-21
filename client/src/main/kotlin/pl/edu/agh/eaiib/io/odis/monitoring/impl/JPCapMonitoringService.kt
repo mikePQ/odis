@@ -1,20 +1,18 @@
 package pl.edu.agh.eaiib.io.odis.monitoring.impl;
 
 import pl.edu.agh.eaiib.io.odis.domain.NetworkInterface
-import pl.edu.agh.eaiib.io.odis.monitoring.MonitorListener
 import pl.edu.agh.eaiib.io.odis.monitoring.MonitoringFilter
-import pl.edu.agh.eaiib.io.odis.monitoring.MonitoringService
+import java.util.function.Consumer
 
-class JPCapMonitoringService : MonitoringService {
-    override fun getMonitoredInterfaces(): List<NetworkInterface> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+class JPCapMonitoringService : AbstractMonitoringService() {
+
+    override fun startMonitoringInterfaceImpl(networkInterface: NetworkInterface, filter: MonitoringFilter) {
+        val capture = JPCapInterfaceCapture.fromInterface(JPCapEntitiesConverter.toJPCapInterface(networkInterface))
+        capture.addPacketConsumer(Consumer {
+            val packet = JPCapEntitiesConverter.fromJPCapPacket(it)
+            notifyPacketReceived(packet, networkInterface)
+        })
+        capture.start(filter)
     }
 
-    override fun startMonitoringInterface(networkInterface: NetworkInterface, filter: MonitoringFilter) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    override fun addMonitorListener(listener: MonitorListener, monitoredInterfaces: List<NetworkInterface>) {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
 }
