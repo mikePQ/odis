@@ -5,6 +5,7 @@ import pl.edu.agh.eaiib.io.odis.domain.impl.JPCapNetworkInterface
 import pl.edu.agh.eaiib.io.odis.domain.packet.Packet
 import pl.edu.agh.eaiib.io.odis.domain.packet.impl.JPCapIPPacket
 import pl.edu.agh.eaiib.io.odis.domain.packet.impl.JPCapPacket
+import pl.edu.agh.eaiib.io.odis.domain.packet.impl.JPCapTCPPacket
 
 object JPCapEntitiesConverter {
     fun toJPCapInterface(networkInterface: NetworkInterface): jpcap.NetworkInterface {
@@ -19,6 +20,11 @@ object JPCapEntitiesConverter {
             = JPCapNetworkInterface(jpcapInterface)
 
     fun fromJPCapPacket(packet: jpcap.packet.Packet): Packet {
+        val tcpPacket = packet as? jpcap.packet.TCPPacket
+        if (tcpPacket != null) {
+            return JPCapTCPPacket(tcpPacket)
+        }
+
         val ipPacket = packet as? jpcap.packet.IPPacket ?: return JPCapPacket(packet)
         return JPCapIPPacket(ipPacket)
     }

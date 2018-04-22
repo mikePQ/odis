@@ -12,7 +12,11 @@ class OdisClientApplication(private val config: Config) {
         monitoringService.addMonitorListener(activitiesPublisher)
 
         val monitoringFilter = config.monitoringFilter
-        val interfaces = config.monitoredInterfacesIds.mapNotNull { monitoringService.findNetworkInterface(it) }
+        val interfaces = if (config.monitoredInterfacesIds.isEmpty()) {
+            monitoringService.getAvailableInterfaces()
+        } else {
+            config.monitoredInterfacesIds.mapNotNull { monitoringService.findNetworkInterface(it) }
+        }
 
         interfaces.forEach { monitoringService.startMonitoringInterface(it, monitoringFilter) }
     }

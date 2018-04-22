@@ -32,7 +32,7 @@ class NetworkActivityPublisher(serverBaseUrl: String,
     }
 
     override fun packetReceived(packet: Packet, networkInterface: NetworkInterface) {
-        val activity = NetworkActivity.create(packet, networkInterface)
+        val activity = NetworkActivity.create(packet)
         publishQueue.add(activity)
     }
 

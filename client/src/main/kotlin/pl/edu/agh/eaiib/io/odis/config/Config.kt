@@ -25,17 +25,25 @@ class Config(val serverBaseUrl: String,
 
             val serverBaseUrl = readProperty(properties, SERVER_BASE_URL_KEY)
             val publishPeriod = readProperty(properties, PUBLISH_PERIOD_KEY).toInt()
-            val monitoredInterfaces = readCsv(readProperty(properties, MONITORED_INTERFACES_KEY))
-            val monitoringFilter = readProperty(properties, MONITORING_FILTER_KEY)
+            val monitoredInterfaces = readCsv(readProperty(properties, MONITORED_INTERFACES_KEY, ""))
+            val monitoringFilter = readProperty(properties, MONITORING_FILTER_KEY, "")
 
             return Config(serverBaseUrl, publishPeriod, monitoredInterfaces, object : MonitoringFilter {
                 override fun getFilterConfig(): String = monitoringFilter
             })
         }
 
-        private fun readProperty(properties: Properties, property: String): String {
-            return properties.getProperty(property)
-                    ?: throw IllegalArgumentException("Property $property is required")
+        private fun readProperty(properties: Properties, property: String, defaultValue: String? = null): String {
+            val value = properties.getProperty(property)
+            if (value != null) {
+                return value
+            }
+
+            if (defaultValue != null) {
+                return defaultValue
+            }
+
+            throw IllegalArgumentException("Property $property is required")
         }
 
         private fun readCsv(csvString: String): List<String> {
