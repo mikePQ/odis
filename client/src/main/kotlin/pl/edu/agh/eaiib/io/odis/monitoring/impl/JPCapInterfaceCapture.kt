@@ -41,6 +41,9 @@ class JPCapInterfaceCapture private constructor(private val captor: JpcapCaptor)
 
     companion object {
         private val EXECUTOR = Executors.newCachedThreadPool()
+        private const val MAX_BYTES_AT_ONCE = Integer.MAX_VALUE
+        private const val PROMISCUOUS_MODE = true
+        private const val PROCESS_PACKET_TIMEOUT = 5000
 
         fun fromInterface(networkInterface: NetworkInterface): JPCapInterfaceCapture {
             val captor = JpcapCaptor
@@ -49,7 +52,3 @@ class JPCapInterfaceCapture private constructor(private val captor: JpcapCaptor)
         }
     }
 }
-
-private const val MAX_BYTES_AT_ONCE = Integer.MAX_VALUE
-private const val PROMISCUOUS_MODE = true
-private const val PROCESS_PACKET_TIMEOUT = 5000

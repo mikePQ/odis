@@ -15,6 +15,9 @@ object JPCapEntitiesConverter {
         return networkInterface.jpcapInterface
     }
 
+    fun fromJPCapInterface(jpcapInterface: jpcap.NetworkInterface): NetworkInterface
+            = JPCapNetworkInterface(jpcapInterface)
+
     fun fromJPCapPacket(packet: jpcap.packet.Packet): Packet {
         val ipPacket = packet as? jpcap.packet.IPPacket ?: return JPCapPacket(packet)
         return JPCapIPPacket(ipPacket)
