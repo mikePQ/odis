@@ -1,4 +1,4 @@
-package pl.edu.agh.eaiib.io.odis.monitoring.impl;
+package pl.edu.agh.eaiib.io.odis.monitoring.impl
 
 import jpcap.JpcapCaptor
 import pl.edu.agh.eaiib.io.odis.domain.NetworkInterface

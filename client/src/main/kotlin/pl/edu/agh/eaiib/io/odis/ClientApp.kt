@@ -24,10 +24,11 @@ class OdisClientApplication(private val config: Config) {
 }
 
 fun main(args: Array<String>) {
-    val config = Config.fromInputStream(OdisClientApplication::class.java.getResourceAsStream(DEFAULT_CONFIG_FILE))
+    val configStream = OdisClientApplication::class.java.getResourceAsStream(DEFAULT_CONFIG_FILE)
+    val config = Config.fromInputStream(configStream)
     val app = OdisClientApplication(config)
     val monitoringService = JPCapMonitoringService()
     app.start(monitoringService)
 }
 
-private const val DEFAULT_CONFIG_FILE = "client.properties"
+private const val DEFAULT_CONFIG_FILE = "/client.properties"
