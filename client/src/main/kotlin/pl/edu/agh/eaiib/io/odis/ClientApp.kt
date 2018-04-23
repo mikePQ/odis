@@ -30,4 +30,4 @@ fun main(args: Array<String>) {
     app.start(monitoringService)
 }
 
-private const val DEFAULT_CONFIG_FILE = "config.properties"
+private const val DEFAULT_CONFIG_FILE = "client.properties"
