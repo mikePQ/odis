@@ -15,5 +15,9 @@ class ActivitiesController(private val activitiesService: ActivitiesService) {
     }
 
     @GetMapping
-    fun getAllActivities(): List<NetworkActivity> = activitiesService.getAll()
+    fun getActivities(@RequestParam ip: String?): List<NetworkActivity>
+    {
+        ip?.let { return activitiesService.getAssociatedActivities(it) }
+        return activitiesService.getAll()
+    }
 }

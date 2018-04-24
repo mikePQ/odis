@@ -9,4 +9,7 @@ class ActivitiesService(private val activitiesRepository: ActivitiesRepository) 
             activitiesRepository.saveAll(activities)
 
     fun getAll(): List<NetworkActivity> = activitiesRepository.findAll()
+    fun getAssociatedActivities(ip: String): List<NetworkActivity> {
+        return activitiesRepository.findActivitiesBySrcAddressHostIpOrDestAddressHostIp(ip, ip)
+    }
 }

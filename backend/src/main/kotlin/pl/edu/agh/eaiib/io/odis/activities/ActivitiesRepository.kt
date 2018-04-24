@@ -5,3 +5,6 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface ActivitiesRepository : MongoRepository<NetworkActivity, String>
+{
+    fun findActivitiesBySrcAddressHostIpOrDestAddressHostIp(ip1 : String, ip2 : String) : List<NetworkActivity>
+}
