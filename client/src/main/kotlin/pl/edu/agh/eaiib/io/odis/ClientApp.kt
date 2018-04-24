@@ -29,6 +29,10 @@ fun main(args: Array<String>) {
     val app = OdisClientApplication(config)
     val monitoringService = JPCapMonitoringService()
     app.start(monitoringService)
+
+    while (monitoringService.getMonitoredInterfaces().isNotEmpty()) {
+        Thread.sleep(100)
+    }
 }
 
 private const val DEFAULT_CONFIG_FILE = "/client.properties"
