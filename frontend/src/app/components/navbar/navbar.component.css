@@ -1,0 +1,55 @@
+* {
+  font-family: Lato, sans-serif;
+}
+
+.nav-icon {
+  color: #ffffff;
+}
+
+h2, h4, h6 {
+  display: inline-block;
+}
+
+.logo-text {
+  padding: 5% 20px 0 35px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+li {
+  display: inline-block;
+}
+
+.navbar-nav {
+  flex-direction: row;
+}
+
+.center-vertically {
+  display: flex;
+  align-items: center;
+}
+
+.navbar-nav > li {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.navbar-nav > li > a {
+  font-weight: bold;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.navbar-nav > li > a > i {
+  font-size: 125%;
+}
+
+a {
+  cursor: pointer;
+}
+
+.top-mg-30 {
+  margin-top: 30px;
+}

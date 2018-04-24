@@ -1,1 +1,11 @@
-/* You can add global styles to this file, and also import other style files */
+.mw-90 {
+  max-width: 90%;
+}
+
+.top-mg-50 {
+  margin-top: 50px;
+}
+
+.br-0 {
+  border-radius: 0;
+}

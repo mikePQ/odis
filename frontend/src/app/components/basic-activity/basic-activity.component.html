@@ -1,0 +1,37 @@
+<div class="row top-mg-50">
+  <section class="col-md-12">
+    <div class="card">
+      <div class="card-header d-flex p-0">
+        <h3 class="card-title p-3">
+          <i class="fa fa-pie-chart mr-1"></i>
+          Aktywność
+        </h3>
+        <ul class="nav nav-pills ml-auto p-2">
+          <li class="nav-item">
+            <a class="nav-link" [class.active]="currentChart == chartType.Daily"
+               (click)="changeChart(chartType.Daily)">Dzień</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [class.active]="currentChart == chartType.Weekly"
+               (click)="changeChart(chartType.Weekly)">Tydzień</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" [class.active]="currentChart == chartType.Monthly"
+               (click)="changeChart(chartType.Monthly)">Miesiąc</a>
+          </li>
+        </ul>
+      </div>
+      <div class="card-body">
+        <app-activity-chart *ngIf="isCurrentChart(chartType.Daily)"
+                            [values]=""
+                            [labels]="dailyChartLabels"></app-activity-chart>
+        <app-activity-chart *ngIf="isCurrentChart(chartType.Weekly)"
+                            [values]="weeklyValues"
+                            [labels]="weeklyChartLabels"></app-activity-chart>
+        <app-activity-chart *ngIf="isCurrentChart(chartType.Monthly)"
+                            [values]="monthlyValues"
+                            [labels]="monthlyChartLabels"></app-activity-chart>
+      </div>
+    </div>
+  </section>
+</div>
