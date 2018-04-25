@@ -28,10 +28,10 @@ data class NetworkActivityDTO(val srcAddress: InetAddressDTO,
                 fun from(networkActivity: NetworkActivity): KeySelector {
                     val packet = networkActivity.packet as TCPPacket
                     val timestamp = packet.getTimestamp()
-                    val srcAddress = InetAddressDTO(packet.getSourceAddress().hostAddress,
-                            packet.getSourceAddress().canonicalHostName, packet.getSourcePort())
-                    val destAddress = InetAddressDTO(packet.getDestinationAddress().hostAddress,
-                            packet.getDestinationAddress().canonicalHostName, packet.getDestinationPort())
+                    val srcAddress = InetAddressDTO(HostDTO(packet.getSourceAddress().hostAddress,
+                            packet.getSourceAddress().canonicalHostName), packet.getSourcePort())
+                    val destAddress = InetAddressDTO(HostDTO(packet.getDestinationAddress().hostAddress,
+                            packet.getDestinationAddress().canonicalHostName), packet.getDestinationPort())
 
                     return KeySelector(timestamp, srcAddress, destAddress)
                 }
@@ -39,7 +39,9 @@ data class NetworkActivityDTO(val srcAddress: InetAddressDTO,
         }
     }
 
-    data class InetAddressDTO(private val ip: String,
-                              private val name: String,
+    data class InetAddressDTO(private val host : HostDTO,
                               private val port: Int)
+
+    data class HostDTO(private val ip : String,
+                       private val name : String)
 }
