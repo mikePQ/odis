@@ -12,12 +12,7 @@ class OdisClientApplication(private val config: Config) {
         monitoringService.addMonitorListener(activitiesPublisher)
 
         val monitoringFilter = config.monitoringFilter
-        val interfaces = if (config.monitoredInterfacesIds.isEmpty()) {
-            monitoringService.getAvailableInterfaces()
-        } else {
-            config.monitoredInterfacesIds.mapNotNull { monitoringService.findNetworkInterface(it) }
-        }
-
+        val interfaces = monitoringService.getAvailableInterfaces()
         interfaces.forEach { monitoringService.startMonitoringInterface(it, monitoringFilter) }
     }
 
@@ -30,7 +25,7 @@ fun main(args: Array<String>) {
     val monitoringService = JPCapMonitoringService()
     app.start(monitoringService)
 
-    while (monitoringService.getMonitoredInterfaces().isNotEmpty()) {
+    while (true) {
         Thread.sleep(100)
     }
 }
