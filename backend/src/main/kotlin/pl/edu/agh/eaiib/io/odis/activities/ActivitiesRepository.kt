@@ -7,4 +7,6 @@ import org.springframework.stereotype.Repository
 interface ActivitiesRepository : MongoRepository<NetworkActivity, String>
 {
     fun findActivitiesBySrcAddressHostIpOrDestAddressHostIp(ip1 : String, ip2 : String) : List<NetworkActivity>
+    fun findByTimestampBetween(begin: Long, end: Long): List<NetworkActivity>
+    fun findActivitiesByTimestampBetweenAndSrcAddressHostIpOrDestAddressHostIp(begin: Long, end: Long, ip1: String, ip2: String): List<NetworkActivity>
 }
