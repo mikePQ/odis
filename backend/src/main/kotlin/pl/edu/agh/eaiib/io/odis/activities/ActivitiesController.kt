@@ -27,6 +27,4 @@ class ActivitiesController(private val activitiesService: ActivitiesService) {
         return ip?.let { ResponseEntity(activitiesService.getAssociatedActivities(it, dataRange), HttpStatus.OK) }
          ?: ResponseEntity(activitiesService.getAll(dataRange), HttpStatus.OK)
     }
-
-
 }
