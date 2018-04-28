@@ -13,13 +13,16 @@ import {HostsService} from './services/hosts/hosts.service';
 import {ActivitiesService} from './services/activities/activities.service';
 import {HomeComponent} from './components/home/home.component';
 import {HostsComponent} from './components/hosts/hosts.component';
-import { HostComponent } from './components/host/host.component';
-import { BasicStatsComponent } from './components/basic-stats/basic-stats.component';
-import { BasicActivityComponent } from './components/basic-activity/basic-activity.component';
-import { ActivityChartComponent } from './components/activity-chart/activity-chart.component';
+import {HostComponent} from './components/host/host.component';
+import {BasicStatsComponent} from './components/basic-stats/basic-stats.component';
+import {BasicActivityComponent} from './components/basic-activity/basic-activity.component';
+import {ActivityChartComponent} from './components/activity-chart/activity-chart.component';
+import { PagesNavComponent } from './components/pages-nav/pages-nav.component';
+import {PaginationService} from './services/pagination.service';
 
 const appRoutes: Routes = [
-  {path: '', component: HomeComponent}
+  {path: '', component: HomeComponent},
+  {path: 'hosts', component: HostsComponent}
 ];
 
 @NgModule({
@@ -31,7 +34,8 @@ const appRoutes: Routes = [
     HostComponent,
     BasicStatsComponent,
     BasicActivityComponent,
-    ActivityChartComponent
+    ActivityChartComponent,
+    PagesNavComponent
   ],
   imports: [
     BrowserModule,
@@ -41,7 +45,7 @@ const appRoutes: Routes = [
     HttpClientModule,
     ChartsModule
   ],
-  providers: [ActivitiesService, HostsService],
+  providers: [ActivitiesService, HostsService, PaginationService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

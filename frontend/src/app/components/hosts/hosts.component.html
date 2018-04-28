@@ -1,5 +1,61 @@
-<div class="row top-mg-50">
-  <h5>Aktywne hosty:</h5>
+<div class="mx-auto mw-90 top-mg-50">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h3 class="card-title">Hosty</h3>
+          <div class="card-tools">
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control float-right clear-border-radius mr-2" placeholder="Nazwa"
+                     [(ngModel)]="namePattern">
+              <input type="text" class="form-control float-right clear-border-radius" placeholder="Adres IPs"
+                     [(ngModel)]="ipPattern">
+              <div class="input-group-append">
+                <button class="btn btn-default" (click)="updateFilters()">
+                  <i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="card-body">
+          <div>
+            <span *ngFor="let filter of filters" class="badge bg-warning mr-2">
+              {{filter.attribute}}:{{filter.pattern}}
+              <i class="ion-close-round" (click)="removeFilter(filter)"></i>
+            </span>
+          </div>
+
+          <table class="table table-bordered top-mg-30">
+            <tr>
+              <th style="width: 2%">#</th>
+              <th>Nazwa</th>
+              <th>Adres IP</th>
+              <th style="width: 2%">Szczegóły</th>
+            </tr>
+
+            <tr *ngFor="let host of filteredHosts; let i = index" [attr.data-index]="i">
+              <td>{{i + 1}}.</td>
+              <td>{{host.name}}</td>
+              <td>{{host.ip}}</td>
+              <td style="text-align: center">
+                <a routerLink="/hosts/{{i}}">
+                <span class="badge bg-danger">
+                <i class="ion-android-share"></i>
+                </span>
+                </a>
+              </td>
+            </tr>
+          </table>
+        </div>
+
+        <div class="card-footer clearfix">
+          <app-pages-nav class="float-right" [pager]="pager" (changePageEventEmitter)="setPage($event)">
+          </app-pages-nav>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
-<app-host *ngFor="let host of hosts" [host]="host"></app-host>
+

@@ -1,0 +1,11 @@
+* {
+  border-radius: 0;
+}
+
+.clear-border-radius {
+ border-radius: 0;
+}
+
+.mr-2 {
+  margin-right: 2%;
+}

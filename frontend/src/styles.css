@@ -2,8 +2,17 @@
   max-width: 90%;
 }
 
+
+.top-mg-30 {
+  margin-top: 30px;
+}
+
 .top-mg-50 {
   margin-top: 50px;
+}
+
+.top-mg-150 {
+  margin-top: 150px;
 }
 
 .br-0 {

@@ -1,0 +1,26 @@
+<ul *ngIf="pager.pages && pager.pages.length" class="pagination pagination-sm m-0 ">
+  <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item">
+    <a (click)="changePage(1)" class="page-link">
+      <i class="fa fa-angle-double-left"></i>
+    </a>
+  </li>
+  <li [ngClass]="{disabled:pager.currentPage === 1}" class="page-item">
+    <a (click)="changePage(pager.currentPage - 1)" class="page-link">
+      <i class="fa fa-angle-left"></i>
+    </a>
+  </li>
+  <li *ngFor="let page of pager.pages" [ngClass]="{active:pager.currentPage === page}" class="page-item">
+    <a (click)="changePage(page)" class="page-link">{{page}}</a>
+  </li>
+  <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item">
+    <a (click)="changePage(pager.currentPage + 1)" class="page-link">
+      <i class="fa fa-angle-right"></i>
+    </a>
+  </li>
+  <li [ngClass]="{disabled:pager.currentPage === pager.totalPages}" class="page-item">
+    <a (click)="changePage(pager.totalPages)" class="page-link">
+      <i class="fa fa-angle-double-right"></i>
+    </a>
+  </li>
+</ul>
+
