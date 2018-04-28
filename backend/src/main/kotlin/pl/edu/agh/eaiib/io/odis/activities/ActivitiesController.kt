@@ -17,15 +17,15 @@ class ActivitiesController(private val activitiesService: ActivitiesService) {
     @GetMapping
     fun getActivities(@RequestParam ip: String?, @RequestParam fromTime: Long?, @RequestParam toTime: Long?): ResponseEntity<List<NetworkActivity>>
     {
-        var dataRange : Pair <Long, Long>? = null;
+        var dataRange : Pair <Long, Long>? = null
         if (fromTime != null || toTime != null) {
             if (fromTime == null || toTime == null) {
-                return ResponseEntity(emptyList(), HttpStatus.BAD_REQUEST);
+                return ResponseEntity(emptyList(), HttpStatus.BAD_REQUEST)
             }
-            dataRange = Pair(fromTime, toTime);
+            dataRange = Pair(fromTime, toTime)
         }
-        ip?.let { ResponseEntity(activitiesService.getAssociatedActivities(it, dataRange), HttpStatus.OK) }
-        return ResponseEntity(activitiesService.getAll(dataRange), HttpStatus.OK)
+        return ip?.let { ResponseEntity(activitiesService.getAssociatedActivities(it, dataRange), HttpStatus.OK) }
+         ?: ResponseEntity(activitiesService.getAll(dataRange), HttpStatus.OK)
     }
 
 

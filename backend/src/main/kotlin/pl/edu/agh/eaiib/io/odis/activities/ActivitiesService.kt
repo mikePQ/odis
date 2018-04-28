@@ -13,7 +13,7 @@ class ActivitiesService(private val activitiesRepository: ActivitiesRepository) 
         return activitiesRepository.findAll()
     }
     fun getAssociatedActivities(ip: String, dataRange: Pair<Long, Long>?): List<NetworkActivity> {
-        dataRange?.let { return activitiesRepository.findActivitesInTimestampRangeWithIp(ip, dataRange.first, dataRange.second) }
+        dataRange?.let { return activitiesRepository.findActivitiesWithSrcAddressHostIpInTimestampRange(ip, dataRange.first, dataRange.second) }
         return activitiesRepository.findActivitiesBySrcAddressHostIpOrDestAddressHostIp(ip, ip)
     }
 }

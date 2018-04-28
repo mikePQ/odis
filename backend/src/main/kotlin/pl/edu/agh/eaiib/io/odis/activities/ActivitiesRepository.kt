@@ -9,6 +9,7 @@ interface ActivitiesRepository : MongoRepository<NetworkActivity, String>
 {
     fun findActivitiesBySrcAddressHostIpOrDestAddressHostIp(ip1 : String, ip2 : String) : List<NetworkActivity>
     fun findByTimestampBetween(begin: Long, end: Long): List<NetworkActivity>
-    @Query("{'srcAddress.host.ip' : '?0', timestamp : {\$gt : ?1, \$lt : ?2}}")
-    fun findActivitesInTimestampRangeWithIp(ip: String, begin: Long, end: Long): List<NetworkActivity>
+
+    @Query("{'srcAddress.host.ip' : '?0', 'timestamp' : {\$gt : ?1, \$lt : ?2}}")
+    fun findActivitiesWithSrcAddressHostIpInTimestampRange(ip: String, begin: Long, end: Long): List<NetworkActivity>
 }
