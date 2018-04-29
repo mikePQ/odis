@@ -27,12 +27,12 @@ class ActivitiesController(private val activitiesService: ActivitiesService) {
                 ?: ResponseEntity(activitiesService.getAll(dataRange), HttpStatus.OK)
     }
 
-    @RequestMapping("/bytes", method = [RequestMethod.GET])
-    fun getAmountOfDataProcessed(@RequestParam ip: String?, @RequestParam fromTime: Long?, @RequestParam toTime: Long?, @RequestParam limit: Long): ResponseEntity<Map<Pair<Long, Long>, Long>> {
+    @GetMapping("/bytes")
+    fun getAmountOfDataProcessed(@RequestParam ip: String?, @RequestParam fromTime: Long?, @RequestParam toTime: Long?, @RequestParam limit: Long): ResponseEntity<List<BytesPerRange>> {
         var dataRange: Pair<Long, Long>? = null
         if (fromTime != null || toTime != null) {
             if (fromTime == null || toTime == null) {
-                return ResponseEntity(emptyMap(), HttpStatus.BAD_REQUEST)
+                return ResponseEntity(emptyList(), HttpStatus.BAD_REQUEST)
             }
             dataRange = Pair(fromTime, toTime)
         }
@@ -45,8 +45,8 @@ class ActivitiesController(private val activitiesService: ActivitiesService) {
         return ResponseEntity(getByteTransferredPerRange(bytesPerTimestamp, limit, dataRange), HttpStatus.OK)
     }
 
-    private fun getByteTransferredPerRange(activities: Map<Long, Long>, limit: Long, dataRangeFromRequest: Pair<Long, Long>?): Map<Pair<Long, Long>, Long> {
+    private fun getByteTransferredPerRange(activities: Map<Long, Long>, limit: Long, dataRangeFromRequest: Pair<Long, Long>?): List<BytesPerRange> {
         val bytesPerRangeCalculator = BytesPerRangeCalculator(activities, limit, dataRangeFromRequest)
-        return bytesPerRangeCalculator.calculate()
+        return bytesPerRangeCalculator.calculate().asSequence().map { BytesPerRange(it.key.first, it.key.second, it.value) }.toList()
     }
 }
