@@ -19,6 +19,10 @@ import {BasicActivityComponent} from './components/basic-activity/basic-activity
 import {ActivityChartComponent} from './components/activity-chart/activity-chart.component';
 import { PagesNavComponent } from './components/pages-nav/pages-nav.component';
 import {PaginationService} from './services/pagination.service';
+import {StatsService} from './services/stats/stats.service';
+import { DlDateTimePickerDateModule } from 'angular-bootstrap-datetimepicker';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import { DateInputModalComponent } from './components/date-input-modal/date-input-modal.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
@@ -35,7 +39,8 @@ const appRoutes: Routes = [
     BasicStatsComponent,
     BasicActivityComponent,
     ActivityChartComponent,
-    PagesNavComponent
+    PagesNavComponent,
+    DateInputModalComponent
   ],
   imports: [
     BrowserModule,
@@ -43,9 +48,14 @@ const appRoutes: Routes = [
     CommonModule,
     FormsModule,
     HttpClientModule,
-    ChartsModule
+    ChartsModule,
+    DlDateTimePickerDateModule,
+    NgbModule.forRoot()
   ],
-  providers: [ActivitiesService, HostsService, PaginationService],
+  entryComponents: [
+    DateInputModalComponent
+  ],
+  providers: [ActivitiesService, HostsService, PaginationService, StatsService],
   bootstrap: [AppComponent]
 })
 export class AppModule {

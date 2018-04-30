@@ -1,10 +1,20 @@
 import {Injectable} from '@angular/core';
-import {Stats, StatsType} from '../../domain/stats';
+import {BytesPerRange, Stats, StatsType} from '../../domain/stats';
+import {HttpClient} from '@angular/common/http';
+import {api} from '../../api';
+import {Observable} from 'rxjs/Observable';
+import {Host} from '../../domain/host';
 
 @Injectable()
 export class StatsService {
 
-  constructor() {
+  constructor(private httpClient: HttpClient) {
+  }
+
+  getBytesPerRange(numberOfRanges: Number, timestampBegin: Number, timestampEnd: Number) : Observable<Array<BytesPerRange>> {
+    const bytesProcessedApi: string = api.getBytesProcessed(numberOfRanges, timestampBegin, timestampEnd);
+    console.log(bytesProcessedApi);
+    return this.httpClient.get<BytesPerRange[]>(bytesProcessedApi);
   }
 
   getStats(statsType: StatsType): Stats {

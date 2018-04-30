@@ -6,20 +6,28 @@
           <i class="fa fa-pie-chart mr-1"></i>
           Aktywność
         </h3>
-        <ul class="nav nav-pills ml-auto p-2">
-          <li class="nav-item">
-            <a class="nav-link" [class.active]="currentChart == chartType.Daily"
-               (click)="changeChart(chartType.Daily)">Dzień</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [class.active]="currentChart == chartType.Weekly"
-               (click)="changeChart(chartType.Weekly)">Tydzień</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" [class.active]="currentChart == chartType.Monthly"
-               (click)="changeChart(chartType.Monthly)">Miesiąc</a>
-          </li>
-        </ul>
+          <div class="card-tools">
+            <div class="input-group">
+              <div class="row input-group-append">
+                <ul class="nav nav-pills ml-auto p-2 float-right">
+                  <li class="nav-item">
+                    <a class="nav-link" [class.active]="currentChart == chartType.Daily"
+                       (click)="changeChart(chartType.Daily)">Dzień</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" [class.active]="currentChart == chartType.Weekly"
+                       (click)="changeChart(chartType.Weekly)">Tydzień</a>
+                  </li>
+                  <li class="nav-item">
+                    <a class="nav-link" [class.active]="currentChart == chartType.Monthly"
+                       (click)="changeChart(chartType.Monthly)">Miesiąc</a>
+                  </li>
+                </ul>
+                <button class="btn btn-default" (click)="open()">Ustaw inne parametry<i class="fa fa-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
       </div>
       <div class="card-body">
         <app-activity-chart *ngIf="isCurrentChart(chartType.Daily)"
