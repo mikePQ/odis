@@ -14,31 +14,45 @@ export class BasicActivityComponent implements OnInit {
 
   chartType = ChartType;
   currentChart = ChartType.Daily;
-  dailyChartLabels = Array<string>;
-  weeklyChartLabels = BasicActivityComponent.getWeeklyChartLabels();
-  monthlyChartLabels = BasicActivityComponent.getMonthlyChartLabels();
+  dailyChartLabels: Array<string>;
+  weeklyChartLabels: Array<string>;
+  monthlyChartLabels = Array<string>;
 
-  bytesPerRange: Array<BytesPerRange>;
+  showDetailedChart = false;
+
+  detiledValues = [];
+  detailedChartLabels = Array<string>;
 
   dailyValues = [];
-  weeklyValues = [5, 3, 6, 5, 1, 2, 4];
-  monthlyValues = [5, 3, 6, 5, 1, 2, 4, 5, 3, 6, 5, 1, 2, 4, 5, 3, 6, 5, 1, 2, 4, 5, 3, 6, 5, 1, 2, 4, 2, 3, 5];
+  weeklyValues = [];
+  monthlyValues = [];
 
   constructor(private statsService: StatsService, private modalService: NgbModal) {
   }
 
   ngOnInit() {
     this.getDailyValues();
+    this.getWeeklyValues();
+    this.getMonthyValues();
   }
 
   changeChart(type: ChartType) {
     this.currentChart = type;
+    this.showDetailedChart = false;
   }
 
   getBytesProcessedInRange(bytesPerRangeParameters: BytesPerRangeParameters) {
-    this.statsService.getBytesPerRange(bytesPerRangeParameters.granularity, bytesPerRangeParameters.begin.getTime() / 1000,
-      bytesPerRangeParameters.end.getTime() / 1000)
-      .subscribe(bytesPerRange => this.bytesPerRange = bytesPerRange);
+    console.log(bytesPerRangeParameters);
+    this.statsService.getBytesPerRange(bytesPerRangeParameters.granularity,
+      Math.round(bytesPerRangeParameters.begin.getTime() / 1000),
+      Math.round(bytesPerRangeParameters.end.getTime() / 1000))
+      .subscribe(bytesPerRange => {
+        this.detailedChartLabels = BasicActivityComponent.getChartLabels(bytesPerRange
+          .map( bytesInRange => new Date(bytesInRange.begin * 1000)));
+        this.detiledValues = bytesPerRange.map( bytesInRange => bytesInRange.bytes);
+        this.showDetailedChart = true;
+        console.log(this.detailedChartLabels);
+      });
   }
 
   isCurrentChart(type: ChartType) {
@@ -48,46 +62,50 @@ export class BasicActivityComponent implements OnInit {
   static getChartLabels(datesToTransform: Array<Date>): Array<string> {
     let datePipe = new DatePipe('en');
     let dates = [];
-    datesToTransform.forEach(date =>       dates.push(datePipe.transform(date, 'short')))
+    console.log(datesToTransform);
+      datesToTransform.forEach(date =>  dates.push(datePipe.transform(date, 'short')))
     return dates;
   }
-
-  static getWeeklyChartLabels(): Array<string> {
-    let datePipe = new DatePipe('en');
-    let dates = [];
-    for (let i = 6; i >= 0; i--) {
-      let date = new Date();
-      date.setDate(date.getDate() - i);
-      dates.push(datePipe.transform(date, 'mediumDate'));
-    }
-
-    return dates;
-  }
-
   getDailyValues(): void {
     const date = new Date();
-    const firstDayTimestamp = date.getTime() / 1000;
-    date.setDate(date.getHours() - 11);
-    const lastDayTimestamp = date.getTime() / 1000;
+    const endTimestamp = Math.round(date.getTime() / 1000);
+    date.setHours(date.getHours() - 11);
+    const beginTimestamp = Math.round(date.getTime() / 1000);
     const granulation = 12;
-    this.statsService.getBytesPerRange(granulation, firstDayTimestamp, lastDayTimestamp)
+    this.statsService.getBytesPerRange(granulation, beginTimestamp, endTimestamp)
       .subscribe(bytesPerRange => {
         this.dailyChartLabels = BasicActivityComponent.getChartLabels(bytesPerRange
-          .map( bytesInRange => new Date(bytesInRange.begin.toString())));
+          .map( bytesInRange => new Date(bytesInRange.begin * 1000)));
         this.dailyValues = bytesPerRange.map( bytesInRange => bytesInRange.bytes);
       });
   }
 
-  static getMonthlyChartLabels(): Array<string> {
-    let datePipe = new DatePipe('en');
-    let dates = [];
-    for (let i = 29; i >= 0; i--) {
-      let date = new Date();
-      date.setDate(date.getDate() - i);
-      dates.push(datePipe.transform(date, 'mediumDate'));
-    }
+  getWeeklyValues(): void {
+    const date = new Date();
+    const endTimestamp = Math.round(date.getTime() / 1000);
+    date.setDate(date.getDate() - 6);
+    const beginTimestamp = Math.round(date.getTime() / 1000);
+    const granulation = 7;
+    this.statsService.getBytesPerRange(granulation, beginTimestamp, endTimestamp)
+      .subscribe(bytesPerRange => {
+        this.weeklyChartLabels = BasicActivityComponent.getChartLabels(bytesPerRange
+          .map( bytesInRange => new Date(bytesInRange.begin * 1000)));
+        this.weeklyValues = bytesPerRange.map( bytesInRange => bytesInRange.bytes);
+      });
+  }
 
-    return dates;
+  getMonthyValues(): void {
+    const date = new Date();
+    const endTimestamp = Math.round(date.getTime() / 1000);
+    date.setDate(date.getDate() - 29);
+    const beginTimestamp = Math.round(date.getTime() / 1000);
+    const granulation = 30;
+    this.statsService.getBytesPerRange(granulation, beginTimestamp, endTimestamp)
+      .subscribe(bytesPerRange => {
+        this.monthlyChartLabels = BasicActivityComponent.getChartLabels(bytesPerRange
+          .map( bytesInRange => new Date(bytesInRange.begin * 1000)));
+        this.monthlyValues = bytesPerRange.map( bytesInRange => bytesInRange.bytes);
+      });
   }
 
   open(content) {

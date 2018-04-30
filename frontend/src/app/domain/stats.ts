@@ -9,13 +9,13 @@ export enum StatsType {
 }
 
 export class BytesPerRange {
-  constructor(public begin: Number,
-              public end: Number,
-              public bytes: Number) {}
+  constructor(public begin: number,
+              public end: number,
+              public bytes: number) {}
 }
 
 export class BytesPerRangeParameters {
   constructor(public begin: Date = new Date(),
               public end: Date = new Date(),
-              public granularity: Number = 0) {}
+              public granularity: number = 0) {}
 }

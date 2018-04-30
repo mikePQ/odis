@@ -8,7 +8,7 @@ export class Api {
   }
 
   getBytesProcessed(numberOfRanges: Number, timestampBegin: Number, timestampEnd: Number): string {
-    return `${this.baseUrl}/activities/bytes&fromTime${timestampBegin}&toTime${timestampBegin}&limit${numberOfRanges}`;
+    return `${this.baseUrl}/activities/bytes?fromTime=${timestampBegin}&toTime=${timestampEnd}&limit=${numberOfRanges}`;
   }
 }
 

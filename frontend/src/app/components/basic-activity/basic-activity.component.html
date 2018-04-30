@@ -30,15 +30,21 @@
           </div>
       </div>
       <div class="card-body">
-        <app-activity-chart *ngIf="isCurrentChart(chartType.Daily)"
-                            [values]=""
-                            [labels]="dailyChartLabels"></app-activity-chart>
-        <app-activity-chart *ngIf="isCurrentChart(chartType.Weekly)"
-                            [values]="weeklyValues"
-                            [labels]="weeklyChartLabels"></app-activity-chart>
-        <app-activity-chart *ngIf="isCurrentChart(chartType.Monthly)"
-                            [values]="monthlyValues"
-                            [labels]="monthlyChartLabels"></app-activity-chart>
+        <div [hidden]="showDetailedChart">
+          <h1>Nie ukryte</h1>
+          <app-activity-chart *ngIf="isCurrentChart(chartType.Daily)"
+                              [values]="dailyValues"
+                              [labels]="dailyChartLabels"></app-activity-chart>
+          <app-activity-chart *ngIf="isCurrentChart(chartType.Weekly)"
+                              [values]="weeklyValues"
+                              [labels]="weeklyChartLabels"></app-activity-chart>
+          <app-activity-chart *ngIf="isCurrentChart(chartType.Monthly)"
+                              [values]="monthlyValues"
+                              [labels]="monthlyChartLabels"></app-activity-chart>
+        </div>
+        <app-activity-chart [hidden]="!showDetailedChart"
+                            [values]="detiledValues"
+                            [labels]="detailedChartLabels"></app-activity-chart>
       </div>
     </div>
   </section>
