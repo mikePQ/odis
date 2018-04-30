@@ -1,12 +1,58 @@
-<div class="row">
-  <div class="col-md-4">
-    {{host.name}}
-  </div>
-  <div class="col-md-4">
-    {{host.ip}}
-  </div>
-  <div class="col-md-4">
-    {{activity}}
+<div class="mx-auto mw-90 top-mg-50">
+  <div class="row">
+    <div class="col-md-3">
+      <div class="card card-dark card-outline">
+        <div class="card-header">
+          <h3 class="card-title">Informacje</h3>
+          <div class="card-tools">
+          </div>
+        </div>
+        <div class="card-body">
+          <table class="table table-bordered top-mg-30">
+            <tr>
+              <td class="text-uppercase text-bold" style="width: 50%">Nazwa</td>
+              <td>{{host?.name}}</td>
+            </tr>
+            <tr>
+              <td class="text-uppercase text-bold" style="width: 50%">Adres IP</td>
+              <td>{{host?.ip}}</td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-8">
+      <div class="card card-danger card-outline">
+        <div class="card-header">
+          <h3 class="card-title">Aktywność</h3>
+          <div class="card-tools">
+            <button class="btn btn-sm btn-danger">Wszystkie</button>
+            <button class="btn btn-sm btn-outline-danger">Dane wysłane</button>
+            <button class="btn btn-sm btn-outline-danger">Dane odebrane</button>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <label for="startTime">Od:</label>
+              <input id="startTime" type="datetime-local" class="form-control form-control-sm">
+            </div>
+            <div class="col-md-6">
+              <label for="endTime">Do:</label>
+              <input id="endTime" type="datetime-local" class="form-control form-control-sm">
+            </div>
+          </div>
+
+          <div class="top-mg-30" style="display: block">
+            <canvas baseChart
+                    [datasets]="barChartData"
+                    [labels]="barChartLabels"
+                    [options]="barChartOptions"
+                    [legend]="barChartLegend"
+                    [chartType]="barChartType"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<hr>

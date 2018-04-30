@@ -1,37 +1,38 @@
 <div class="row top-mg-50">
   <section class="col-md-12">
-    <div class="card">
+    <div class="card card-dark card-outline">
       <div class="card-header d-flex p-0">
         <h3 class="card-title p-3">
           <i class="fa fa-pie-chart mr-1"></i>
           Aktywność
         </h3>
-          <div class="card-tools">
-            <div class="input-group">
-              <div class="row input-group-append">
-                <ul class="nav nav-pills ml-auto p-2 float-right">
-                  <li class="nav-item">
-                    <a class="nav-link" [class.active]="currentChart == chartType.Daily"
-                       (click)="changeChart(chartType.Daily)">Dzień</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" [class.active]="currentChart == chartType.Weekly"
-                       (click)="changeChart(chartType.Weekly)">Tydzień</a>
-                  </li>
-                  <li class="nav-item">
-                    <a class="nav-link" [class.active]="currentChart == chartType.Monthly"
-                       (click)="changeChart(chartType.Monthly)">Miesiąc</a>
-                  </li>
-                </ul>
-                <button class="btn btn-default" (click)="open()">Ustaw inne parametry<i class="fa fa-search"></i>
-                </button>
-              </div>
-            </div>
-          </div>
+        <div class="card-tools">
+          <button class="btn btn-sm"
+                  [class.btn-dark]="currentChart == chartType.Daily"
+                  [class.btn-outline-dark]="currentChart != chartType.Daily"
+                  (click)="changeChart(chartType.Daily)">Dzień
+          </button>
+
+          <button class="btn btn-sm btn-outline-dark"
+                  [class.btn-dark]="currentChart == chartType.Weekly"
+                  [class.btn-outline-dark]="currentChart != chartType.Weekly"
+                  (click)="changeChart(chartType.Weekly)">Tydzień
+          </button>
+
+          <button class="btn btn-sm btn-outline-dark"
+                  [class.btn-dark]="currentChart == chartType.Monthly"
+                  [class.btn-outline-dark]="currentChart != chartType.Monthly"
+                  (click)="changeChart(chartType.Monthly)">Miesiąc
+          </button>
+
+          <button class="btn btn-sm btn-outline-dark ml-5" (click)="open()">
+            <i class="ion-ios-toggle"></i>
+            Ustaw inne parametry
+          </button>
+        </div>
       </div>
       <div class="card-body">
         <div [hidden]="showDetailedChart">
-          <h1>Nie ukryte</h1>
           <app-activity-chart *ngIf="isCurrentChart(chartType.Daily)"
                               [values]="dailyValues"
                               [labels]="dailyChartLabels"></app-activity-chart>
@@ -43,7 +44,7 @@
                               [labels]="monthlyChartLabels"></app-activity-chart>
         </div>
         <app-activity-chart [hidden]="!showDetailedChart"
-                            [values]="detiledValues"
+                            [values]="detailedValues"
                             [labels]="detailedChartLabels"></app-activity-chart>
       </div>
     </div>

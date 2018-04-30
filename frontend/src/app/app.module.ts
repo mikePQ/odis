@@ -22,11 +22,12 @@ import {PaginationService} from './services/pagination.service';
 import {StatsService} from './services/stats/stats.service';
 import { DlDateTimePickerDateModule } from 'angular-bootstrap-datetimepicker';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
-import { DateInputModalComponent } from './components/date-input-modal/date-input-modal.component';
+import {DateInputModalComponent} from './components/date-input-modal/date-input-modal.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
-  {path: 'hosts', component: HostsComponent}
+  {path: 'hosts', component: HostsComponent},
+  {path: 'hosts/:id', component: HostComponent}
 ];
 
 @NgModule({

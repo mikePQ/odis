@@ -13,15 +13,6 @@ export class ActivityChartComponent implements OnInit {
   @Input('labels')
   timestamps: Array<any>;
 
-  colors = [{
-    backgroundColor: 'rgba(151,187,205,0.2)',
-    borderColor: 'rgba(151,187,205,1)',
-    pointBackgroundColor: 'rgba(151,187,205,1)',
-    pointBorderColor: '#fff',
-    pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: 'rgba(151,187,205,0.8)'
-  }];
-
   constructor() {
   }
 

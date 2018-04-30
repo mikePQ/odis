@@ -5,7 +5,6 @@
   max-width: 90%;
 }
 
-
 .top-mg-30 {
   margin-top: 30px;
 }
@@ -16,6 +15,14 @@
 
 .top-mg-150 {
   margin-top: 150px;
+}
+
+.bt-mg-30 {
+  margin-bottom: 30px;
+}
+
+.bt-mg-50 {
+  margin-bottom: 50px;
 }
 
 .br-0 {

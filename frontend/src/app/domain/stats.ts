@@ -17,5 +17,5 @@ export class BytesPerRange {
 export class BytesPerRangeParameters {
   constructor(public begin: Date = new Date(),
               public end: Date = new Date(),
-              public granularity: number = 0) {}
+              public granularity: number = 10) {}
 }

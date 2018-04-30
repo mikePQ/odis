@@ -8,9 +8,15 @@ import {BytesPerRangeParameters} from '../../domain/stats';
   styleUrls: ['./date-input-modal.component.css']
 })
 export class DateInputModalComponent implements OnInit {
-  @Output() notify: EventEmitter<BytesPerRangeParameters> = new EventEmitter<BytesPerRangeParameters>();
-  constructor(public activeModal: NgbActiveModal) { }
+
+  @Output()
+  notify: EventEmitter<BytesPerRangeParameters> = new EventEmitter<BytesPerRangeParameters>();
+
   bytesPerRangeParameters: BytesPerRangeParameters = new BytesPerRangeParameters();
+
+  constructor(public activeModal: NgbActiveModal) {
+  }
+
   ngOnInit() {
   }
 
@@ -18,4 +24,13 @@ export class DateInputModalComponent implements OnInit {
     this.notify.emit(this.bytesPerRangeParameters);
     this.activeModal.dismiss('Parameters returned');
   }
+
+  updateBeginDate(event: string) {
+    this.bytesPerRangeParameters.begin = new Date(event);
+  }
+
+  updateEndDate(event: string) {
+    this.bytesPerRangeParameters.end = new Date(event);
+  }
+
 }

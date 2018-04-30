@@ -3,14 +3,31 @@
     <span aria-hidden="true">&times;</span>
   </button>
 </div>
+
 <div class="modal-body modal-lg">
-  <h4><span class="label label-default">Początek</span></h4> {{bytesPerRangeParameters.begin}}
-  <dl-date-time-picker [(ngModel)]="bytesPerRangeParameters.begin"></dl-date-time-picker>
-  <h4><span class="label label-default">Koniec</span></h4>{{bytesPerRangeParameters.end}}
-  <dl-date-time-picker [(ngModel)]="bytesPerRangeParameters.end"></dl-date-time-picker>
-    <h4><span class="label label-default">Granularność</span></h4>
-  <input type="number" [(ngModel)]="bytesPerRangeParameters.granularity">
-  <br>
-  <button class="success float-right" (click)="returnParameters()">Zatwierdz</button>
+  <div class="row">
+    <div class="offset-1 col-md-10">
+      <div class="row">
+        <label for="startTime">Od:</label>
+        <input id="startTime" type="datetime-local" class="form-control form-control-sm"
+               [ngModel]="bytesPerRangeParameters.begin | date:'yyyy-MM-ddTHH:mm'"
+               (ngModelChange)="updateBeginDate($event)">
+      </div>
+      <div class="row top-mg-30">
+        <label for="endTime">Do:</label>
+        <input id="endTime" type="datetime-local" class="form-control form-control-sm"
+               [ngModel]="bytesPerRangeParameters.end | date:'yyyy-MM-ddTHH:mm'"
+               (ngModelChange)="updateEndDate($event)">
+      </div>
+      <div class="row top-mg-50">
+        <label for="granularity">Granularność</label>
+        <input id="granularity" type="number" class="form-control form-control-sm"
+               [(ngModel)]="bytesPerRangeParameters.granularity">
+      </div>
+      <div class="row top-mg-50 bt-mg-30 float-right">
+        <button class="btn btn-sm btn-dark float-right" (click)="returnParameters()">Zatwierdź</button>
+      </div>
+    </div>
+  </div>
 </div>
 
