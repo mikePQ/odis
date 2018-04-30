@@ -1,0 +1,16 @@
+<div class="modal-header">
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body modal-lg">
+  <h4><span class="label label-default">Początek</span></h4> {{bytesPerRangeParameters.begin}}
+  <dl-date-time-picker [(ngModel)]="bytesPerRangeParameters.begin"></dl-date-time-picker>
+  <h4><span class="label label-default">Koniec</span></h4>{{bytesPerRangeParameters.end}}
+  <dl-date-time-picker [(ngModel)]="bytesPerRangeParameters.end"></dl-date-time-picker>
+    <h4><span class="label label-default">Granularność</span></h4>
+  <input type="number" [(ngModel)]="bytesPerRangeParameters.granularity">
+  <br>
+  <button class="success float-right" (click)="returnParameters()">Zatwierdz</button>
+</div>
+
