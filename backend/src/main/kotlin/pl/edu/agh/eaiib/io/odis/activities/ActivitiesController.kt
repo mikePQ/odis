@@ -28,7 +28,7 @@ class ActivitiesController(private val activitiesService: ActivitiesService) {
     }
 
     @GetMapping("/bytes")
-    fun getAmountOfDataProcessed(@RequestParam ip: String?, @RequestParam fromTime: Long?, @RequestParam toTime: Long?, @RequestParam limit: Long): ResponseEntity<List<BytesPerRange>> {
+    fun getAmountOfDataProcessed(@RequestParam ip: String?, @RequestParam fromTime: Long?, @RequestParam toTime: Long?, @RequestParam limit: Long, @RequestParam direction: String?): ResponseEntity<List<BytesPerRange>> {
         var dataRange: Pair<Long, Long>? = null
         if (fromTime != null || toTime != null) {
             if (fromTime == null || toTime == null) {
@@ -37,12 +37,28 @@ class ActivitiesController(private val activitiesService: ActivitiesService) {
             dataRange = Pair(fromTime, toTime)
         }
 
-        val activitiesList: List<NetworkActivity> = ip?.let { activitiesService.getAssociatedActivities(it, dataRange) }
+        var activitiesList: List<NetworkActivity> = ip?.let { activitiesService.getAssociatedActivities(it, dataRange) }
                 ?: activitiesService.getAll(dataRange)
+
+
+        if (ip == null && direction != null)
+            return ResponseEntity(emptyList(), HttpStatus.BAD_REQUEST)
+        activitiesList = filterByDirection(ip, direction, activitiesList);
 
         val bytesPerTimestamp: Map<Long, Long> = activitiesList.asSequence().groupBy { it.timestamp }.mapValues { it.value.sumByDouble { it.bytes.toDouble() }.toLong() }
 
         return ResponseEntity(getByteTransferredPerRange(bytesPerTimestamp, limit, dataRange), HttpStatus.OK)
+    }
+
+    private fun filterByDirection(ip: String?, direction: String?, activitiesList: List<NetworkActivity> ) :List<NetworkActivity> {
+        direction?.let {
+            if (it == "from") {
+                return activitiesList.filter { it.srcAddress.host.ip == ip!! }
+            } else if (it == "to") {
+                return activitiesList.filter { it.destAddress.host.ip == ip!! }
+            }
+        }
+        return activitiesList;
     }
 
     private fun getByteTransferredPerRange(activities: Map<Long, Long>, limit: Long, dataRangeFromRequest: Pair<Long, Long>?): List<BytesPerRange> {
