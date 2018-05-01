@@ -36,26 +36,25 @@
           <app-activity-chart *ngIf="isCurrentChart(chartType.Daily)"
                               [values]="dailyValues"
                               [labels]="dailyChartLabels"
-                              [name]="'Aktywność [b]'">
+                              [name]="'Aktywność [B]'">
 
           </app-activity-chart>
           <app-activity-chart *ngIf="isCurrentChart(chartType.Weekly)"
                               [values]="weeklyValues"
                               [labels]="weeklyChartLabels"
-                              [name]="'Aktywność [b]'">
+                              [name]="'Aktywność [B]'">
 
           </app-activity-chart>
           <app-activity-chart *ngIf="isCurrentChart(chartType.Monthly)"
                               [values]="monthlyValues"
                               [labels]="monthlyChartLabels"
-                              [name]="'Aktywność [b]'">
+                              [name]="'Aktywność [B]'">
 
           </app-activity-chart>
         </div>
         <app-activity-chart [hidden]="!showDetailedChart"
                             [values]="detailedValues"
                             [labels]="detailedChartLabels">
-
         </app-activity-chart>
       </div>
     </div>

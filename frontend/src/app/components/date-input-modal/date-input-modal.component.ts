@@ -22,7 +22,7 @@ export class DateInputModalComponent implements OnInit {
   }
 
   returnParameters() {
-    this.notify.emit({begin: this.begin, end: this.end});
+    this.notify.emit({begin: this.begin, end: this.end, granularity: this.granularity});
     this.activeModal.dismiss('Parameters returned');
   }
 

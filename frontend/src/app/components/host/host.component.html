@@ -26,30 +26,49 @@
         <div class="card-header">
           <h3 class="card-title">Aktywność</h3>
           <div class="card-tools">
-            <button class="btn btn-sm btn-danger">Wszystkie</button>
-            <button class="btn btn-sm btn-outline-danger">Dane wysłane</button>
-            <button class="btn btn-sm btn-outline-danger">Dane odebrane</button>
+            <button class="btn btn-sm"
+                    [class.btn-danger]="currentActivityType == activityType.All"
+                    [class.btn-outline-danger]="currentActivityType != activityType.All"
+                    (click)="changeActivityType(activityType.All)">Wszystkie
+            </button>
+            <button class="btn btn-sm"
+                    [class.btn-danger]="currentActivityType == activityType.In"
+                    [class.btn-outline-danger]="currentActivityType != activityType.In"
+                    (click)="changeActivityType(activityType.In)">Dane odebrane
+            </button>
+            <button class="btn btn-sm"
+                    [class.btn-danger]="currentActivityType == activityType.Out"
+                    [class.btn-outline-danger]="currentActivityType != activityType.Out"
+                    (click)="changeActivityType(activityType.Out)">Dane wysłane
+            </button>
+
+            <button class="btn btn-sm btn-outline-danger ml-5" (click)="open()">
+              <i class="ion-ios-toggle"></i>
+              Ustaw inne parametry
+            </button>
+
           </div>
         </div>
         <div class="card-body">
-          <div class="row">
-            <div class="col-md-6">
-              <label for="startTime">Od:</label>
-              <input id="startTime" type="datetime-local" class="form-control form-control-sm">
-            </div>
-            <div class="col-md-6">
-              <label for="endTime">Do:</label>
-              <input id="endTime" type="datetime-local" class="form-control form-control-sm">
-            </div>
-          </div>
-
-          <div class="top-mg-30" style="display: block">
-            <canvas baseChart
-                    [datasets]="barChartData"
-                    [labels]="barChartLabels"
-                    [options]="barChartOptions"
-                    [legend]="barChartLegend"
-                    [chartType]="barChartType"></canvas>
+          <div class="top-mg-30" style="display: block" *ngIf="isDataAvailable">
+            <app-activity-chart *ngIf="currentActivityType == activityType.All"
+                                [name]="'Aktywność[B]'"
+                                [color]="'#c45850'"
+                                [values]="allValues"
+                                [labels]="timestamps">
+            </app-activity-chart>
+            <app-activity-chart *ngIf="currentActivityType == activityType.In"
+                                [name]="'Aktywność[B]'"
+                                [color]="'#c45850'"
+                                [values]="inValues"
+                                [labels]="inTimestamps">
+            </app-activity-chart>
+            <app-activity-chart *ngIf="currentActivityType == activityType.Out"
+                                [name]="'Aktywność[B]'"
+                                [color]="'#c45850'"
+                                [values]="outValues"
+                                [labels]="outTimestamps">
+            </app-activity-chart>
           </div>
         </div>
       </div>

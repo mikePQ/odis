@@ -16,14 +16,10 @@ export class ActivityChartComponent implements OnInit {
   @Input('name')
   name: string;
 
-  colors: Array<any> = [{
-    backgroundColor: '#3e95cd',
-    borderColor: '#3e95cd',
-    pointBackgroundColor: '#3e95cd',
-    pointBorderColor: '#fff',
-    pointHoverBackgroundColor: '#fff',
-    pointHoverBorderColor: 'rgba(77,83,96,1)'
-  }];
+  @Input('color')
+  color: string;
+
+  colors: Array<any> = [];
 
   labeledValues: Array<any> = [];
 
@@ -32,6 +28,18 @@ export class ActivityChartComponent implements OnInit {
 
   ngOnInit() {
     this.labeledValues = [{data: this.values, label: this.name}];
+    if (!this.color) {
+      this.color = '#3e95cd';
+    }
+
+    this.colors = [{
+      backgroundColor: this.color,
+      borderColor: this.color,
+      pointBackgroundColor: this.color,
+      pointBorderColor: '#fff',
+      pointHoverBackgroundColor: '#fff',
+      pointHoverBorderColor: 'rgba(77,83,96,1)'
+    }];
   }
 
 }

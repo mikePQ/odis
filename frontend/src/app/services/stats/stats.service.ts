@@ -12,11 +12,6 @@ export class StatsService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getBytesPerRange(numberOfRanges: Number, timestampBegin: Number, timestampEnd: Number): Observable<Array<BytesPerRange>> {
-    const bytesProcessedApi: string = api.getBytesProcessed(numberOfRanges, timestampBegin, timestampEnd);
-    return this.httpClient.get<BytesPerRange[]>(bytesProcessedApi);
-  }
-
   getStats(params: StatsQueryParams): Observable<Stats> {
     let requestUrl = api.getBytesProcessed(params.granularity, toTimestamp(params.start), toTimestamp(params.end));
     if (params.hostIp) {

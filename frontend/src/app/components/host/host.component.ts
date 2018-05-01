@@ -1,9 +1,11 @@
 import {Component, OnInit} from '@angular/core';
-import {ActivitiesService} from '../../services/activities/activities.service';
 import {Host} from '../../domain/host';
-import {HostActivity} from '../../domain/host.activity';
 import {HostsService} from '../../services/hosts/hosts.service';
 import {ActivatedRoute} from '@angular/router';
+import {StatsService} from '../../services/stats/stats.service';
+import {StatsQueryParams, StatsType, TrafficType} from '../../domain/stats';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {DateInputModalComponent} from '../date-input-modal/date-input-modal.component';
 
 @Component({
   selector: 'app-host',
@@ -11,26 +13,25 @@ import {ActivatedRoute} from '@angular/router';
   styleUrls: ['./host.component.css']
 })
 export class HostComponent implements OnInit {
-
+  activityType = TrafficType;
   host: Host;
-  activity: HostActivity;
 
-  public barChartOptions:any = {
-    scaleShowVerticalLines: false,
-    responsive: true
-  };
+  isDataAvailable: boolean = false;
 
-  public barChartLabels:string[] = ['2006', '2007', '2008', '2009', '2010', '2011', '2012'];
-  public barChartType:string = 'bar';
-  public barChartLegend:boolean = true;
+  timestamps: Array<any> = [];
+  allValues: Array<any> = [];
 
-  public barChartData:any[] = [
-    {data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A'},
-    {data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B'}
-  ];
+  inTimestamps: Array<any> = [];
+  inValues: Array<any> = [];
 
-  constructor(private activitiesService: ActivitiesService,
+  outTimestamps: Array<any> = [];
+  outValues: Array<any> = [];
+
+  currentActivityType: TrafficType = TrafficType.All;
+
+  constructor(private statsService: StatsService,
               private hostsService: HostsService,
+              private modalService: NgbModal,
               private route: ActivatedRoute) {
   }
 
@@ -39,14 +40,45 @@ export class HostComponent implements OnInit {
       let hostIp = params.ip;
       this.hostsService.getHosts(hostIp).subscribe(hosts => {
         this.host = hosts[0];
-        this.activitiesService.getHostActivity(this.host).subscribe(activity => {
-          this.activity = activity;
-        });
+        let params = StatsService.getDefaultQueryParams(StatsType.Daily);
+        this.getStats(params.start, params.end, params.granularity);
       });
     });
   }
 
-  rangeChanged(event: any) {
+  getStats(begin: Date, end: Date, granularity: number) {
+    let params = new StatsQueryParams(begin, end, granularity);
+    params.hostIp = this.host.ip;
+    this.statsService.getStats(params)
+      .subscribe(stats => {
+        this.timestamps = stats.getTimestamps();
+        this.allValues = stats.getValues();
+        this.isDataAvailable = true;
+      });
 
+    params.trafficType = TrafficType.In;
+    this.statsService.getStats(params)
+      .subscribe(stats => {
+        this.inTimestamps = stats.getTimestamps();
+        this.inValues = stats.getValues();
+      });
+
+    params.trafficType = TrafficType.Out;
+    this.statsService.getStats(params)
+      .subscribe(stats => {
+        this.outTimestamps = stats.getTimestamps();
+        this.outValues = stats.getValues();
+      });
+  }
+
+  changeActivityType(type: TrafficType) {
+    this.currentActivityType = type;
+  }
+
+  open() {
+    const modalRef = this.modalService.open(DateInputModalComponent);
+    modalRef.componentInstance.notify.subscribe((params) => {
+      this.getStats(params.begin, params.end, params.granularity);
+    });
   }
 }
