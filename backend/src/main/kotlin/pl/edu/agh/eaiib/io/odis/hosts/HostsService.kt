@@ -11,4 +11,8 @@ class HostsService(private val activitiesRepository: ActivitiesRepository) {
             .toSet()
             .asSequence()
             .toList()
+
+    fun getHostWithIp(ip: String): List<Host> {
+        return getAll().filter { it.ip == ip }
+    }
 }

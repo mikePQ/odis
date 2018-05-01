@@ -6,5 +6,10 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/api/hosts")
 class HostController(private val hostsService : HostsService) {
     @GetMapping
-    fun getAllHosts(): List<Host> = hostsService.getAll()
+    fun getAllHosts(@RequestParam ip: String?): List<Host> {
+        ip?.let {
+            return hostsService.getHostWithIp(ip)
+        }
+        return hostsService.getAll()
+    }
 }

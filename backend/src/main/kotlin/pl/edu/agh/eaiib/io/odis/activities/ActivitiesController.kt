@@ -15,7 +15,7 @@ class ActivitiesController(private val activitiesService: ActivitiesService) {
     }
 
     @GetMapping
-    fun getActivities(@RequestParam ip: String?, @RequestParam fromTime: Long?, @RequestParam toTime: Long?): ResponseEntity<List<NetworkActivity>> {
+    fun getActivities(@RequestParam hostIp: String?, @RequestParam fromTime: Long?, @RequestParam toTime: Long?): ResponseEntity<List<NetworkActivity>> {
         var dataRange: Pair<Long, Long>? = null
         if (fromTime != null || toTime != null) {
             if (fromTime == null || toTime == null) {
@@ -23,12 +23,13 @@ class ActivitiesController(private val activitiesService: ActivitiesService) {
             }
             dataRange = Pair(fromTime, toTime)
         }
-        return ip?.let { ResponseEntity(activitiesService.getAssociatedActivities(it, dataRange), HttpStatus.OK) }
+        return hostIp?.let { ResponseEntity(activitiesService.getAssociatedActivities(it, dataRange), HttpStatus.OK) }
                 ?: ResponseEntity(activitiesService.getAll(dataRange), HttpStatus.OK)
     }
 
     @GetMapping("/bytes")
-    fun getAmountOfDataProcessed(@RequestParam ip: String?, @RequestParam fromTime: Long?, @RequestParam toTime: Long?, @RequestParam limit: Long, @RequestParam direction: String?): ResponseEntity<List<BytesPerRange>> {
+    fun getAmountOfDataProcessed(@RequestParam hostIp: String?, @RequestParam fromTime: Long?, @RequestParam toTime: Long?,
+                                 @RequestParam limit: Long, @RequestParam direction: String?, @RequestParam peersIps: Array<String>?): ResponseEntity<List<BytesPerRange>> {
         var dataRange: Pair<Long, Long>? = null
         if (fromTime != null || toTime != null) {
             if (fromTime == null || toTime == null) {
@@ -37,13 +38,13 @@ class ActivitiesController(private val activitiesService: ActivitiesService) {
             dataRange = Pair(fromTime, toTime)
         }
 
-        var activitiesList: List<NetworkActivity> = ip?.let { activitiesService.getAssociatedActivities(it, dataRange) }
+        var activitiesList: List<NetworkActivity> = hostIp?.let { activitiesService.getAssociatedActivities(it, dataRange) }
                 ?: activitiesService.getAll(dataRange)
 
 
-        if (ip == null && direction != null)
+        if (hostIp == null && direction != null)
             return ResponseEntity(emptyList(), HttpStatus.BAD_REQUEST)
-        activitiesList = filterByDirection(ip, direction, activitiesList);
+        activitiesList = filterByDirection(hostIp, direction, activitiesList);
 
         val bytesPerTimestamp: Map<Long, Long> = activitiesList.asSequence().groupBy { it.timestamp }.mapValues { it.value.sumByDouble { it.bytes.toDouble() }.toLong() }
 
