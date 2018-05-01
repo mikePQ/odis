@@ -1,6 +1,5 @@
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
-import {BytesPerRangeParameters} from '../../domain/stats';
 
 @Component({
   selector: 'app-date-input-modal',
@@ -10,9 +9,11 @@ import {BytesPerRangeParameters} from '../../domain/stats';
 export class DateInputModalComponent implements OnInit {
 
   @Output()
-  notify: EventEmitter<BytesPerRangeParameters> = new EventEmitter<BytesPerRangeParameters>();
+  notify: EventEmitter<any> = new EventEmitter<any>();
 
-  bytesPerRangeParameters: BytesPerRangeParameters = new BytesPerRangeParameters();
+  begin: Date = new Date();
+  end: Date = new Date();
+  granularity: number = 10;
 
   constructor(public activeModal: NgbActiveModal) {
   }
@@ -21,16 +22,16 @@ export class DateInputModalComponent implements OnInit {
   }
 
   returnParameters() {
-    this.notify.emit(this.bytesPerRangeParameters);
+    this.notify.emit({begin: this.begin, end: this.end});
     this.activeModal.dismiss('Parameters returned');
   }
 
   updateBeginDate(event: string) {
-    this.bytesPerRangeParameters.begin = new Date(event);
+    this.begin = new Date(event);
   }
 
   updateEndDate(event: string) {
-    this.bytesPerRangeParameters.end = new Date(event);
+    this.end = new Date(event);
   }
 
 }

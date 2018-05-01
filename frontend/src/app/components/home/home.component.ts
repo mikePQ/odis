@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {Stats} from '../../domain/stats';
 
 @Component({
   selector: 'app-home',
@@ -7,9 +8,25 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HomeComponent implements OnInit {
 
-  constructor() { }
+  dailyStats: Stats;
+  weeklyStats: Stats;
+  monthlyStats: Stats;
+
+  constructor() {
+  }
 
   ngOnInit() {
   }
 
+  updateDailyStats(stats: Stats) {
+    this.dailyStats = stats;
+  }
+
+  updateWeeklyStats(stats: Stats) {
+    this.weeklyStats = stats;
+  }
+
+  updateMonthlyStats(stats: Stats) {
+    this.monthlyStats = stats;
+  }
 }

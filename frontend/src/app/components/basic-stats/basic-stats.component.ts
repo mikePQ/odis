@@ -8,18 +8,27 @@ import {Stats} from '../../domain/stats';
 })
 export class BasicStatsComponent implements OnInit {
 
-  @Input("dailyStats")
+  @Input('dailyStats')
   dailyStats: Stats;
 
-  @Input("weeklyStats")
+  @Input('weeklyStats')
   weeklyStats: Stats;
 
-  @Input("monthlyStats")
+  @Input('monthlyStats')
   monthlyStats: Stats;
 
-  constructor() { }
+  constructor() {
+  }
 
   ngOnInit() {
+  }
+
+  format(stats: Stats): string {
+    if (!stats) {
+      return ' - ';
+    }
+
+    return `${stats.totalBytes / 1000}`;
   }
 
 }

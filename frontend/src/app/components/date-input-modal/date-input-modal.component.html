@@ -10,19 +10,19 @@
       <div class="row">
         <label for="startTime">Od:</label>
         <input id="startTime" type="datetime-local" class="form-control form-control-sm"
-               [ngModel]="bytesPerRangeParameters.begin | date:'yyyy-MM-ddTHH:mm'"
+               [ngModel]="begin | date:'yyyy-MM-ddTHH:mm'"
                (ngModelChange)="updateBeginDate($event)">
       </div>
       <div class="row top-mg-30">
         <label for="endTime">Do:</label>
         <input id="endTime" type="datetime-local" class="form-control form-control-sm"
-               [ngModel]="bytesPerRangeParameters.end | date:'yyyy-MM-ddTHH:mm'"
+               [ngModel]="end | date:'yyyy-MM-ddTHH:mm'"
                (ngModelChange)="updateEndDate($event)">
       </div>
       <div class="row top-mg-50">
         <label for="granularity">Granularność</label>
         <input id="granularity" type="number" class="form-control form-control-sm"
-               [(ngModel)]="bytesPerRangeParameters.granularity">
+               [(ngModel)]="granularity">
       </div>
       <div class="row top-mg-50 bt-mg-30 float-right">
         <button class="btn btn-sm btn-dark float-right" (click)="returnParameters()">Zatwierdź</button>

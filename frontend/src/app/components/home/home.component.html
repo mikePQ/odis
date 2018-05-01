@@ -1,6 +1,13 @@
 <div class="mx-auto mw-90 top-mg-50">
-  <app-basic-stats></app-basic-stats>
-  <app-basic-activity></app-basic-activity>
+  <app-basic-stats [dailyStats]="dailyStats"
+                   [weeklyStats]="weeklyStats"
+                   [monthlyStats]="monthlyStats">
+  </app-basic-stats>
+
+  <app-basic-activity (dailyStats)="updateDailyStats($event)"
+                      (weeklyStats)="updateWeeklyStats($event)"
+                      (monthlyStats)="updateMonthlyStats($event)">
+  </app-basic-activity>
 </div>
 
 
