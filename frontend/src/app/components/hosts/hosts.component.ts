@@ -81,7 +81,7 @@ export class HostsComponent implements OnInit {
       return;
     }
 
-    this.pager = this.paginationService.getPager(this.filteredHosts.length, page);
+    this.pager = this.paginationService.getPager(this.filteredHosts.length, page, 10);
     this.pagedHosts = this.filteredHosts.slice(this.pager.startIndex, this.pager.endIndex + 1);
   }
 }

@@ -12,8 +12,8 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class HostComponent implements OnInit {
 
-  hostId: number;
   host: Host;
+  activity: HostActivity;
 
   public barChartOptions:any = {
     scaleShowVerticalLines: false,
@@ -31,20 +31,19 @@ export class HostComponent implements OnInit {
 
   constructor(private activitiesService: ActivitiesService,
               private hostsService: HostsService,
-              route: ActivatedRoute) {
-
-    route.params.subscribe(params => {
-      this.hostId = params.id;
-    });
+              private route: ActivatedRoute) {
   }
 
   ngOnInit() {
-    // this.hostsService.getHost(this.hostId).subscribe(host => {
-    //   this.host = host;
-    //   this.activitiesService.getHostActivity(host).subscribe(activity => {
-    //     this.activity = activity;
-    //   });
-    // });
+    this.route.params.subscribe(params => {
+      let hostIp = params.ip;
+      this.hostsService.getHosts(hostIp).subscribe(hosts => {
+        this.host = hosts[0];
+        this.activitiesService.getHostActivity(this.host).subscribe(activity => {
+          this.activity = activity;
+        });
+      });
+    });
   }
 
   rangeChanged(event: any) {

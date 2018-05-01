@@ -11,7 +11,7 @@
               <input type="text" class="form-control float-right clear-border-radius" placeholder="Adres IPs"
                      [(ngModel)]="ipPattern">
               <div class="input-group-append">
-                <button class="btn btn-default" (click)="updateFilters()">
+                <button class="btn btn-dark" (click)="updateFilters()">
                   <i class="fa fa-search"></i>
                 </button>
               </div>
@@ -34,12 +34,12 @@
               <th style="width: 2%">Szczegóły</th>
             </tr>
 
-            <tr *ngFor="let host of filteredHosts; let i = index" [attr.data-index]="i">
+            <tr *ngFor="let host of pagedHosts; let i = index" [attr.data-index]="i">
               <td>{{i + 1}}.</td>
               <td>{{host.name}}</td>
               <td>{{host.ip}}</td>
               <td style="text-align: center">
-                <a routerLink="/hosts/{{i}}">
+                <a routerLink="/hosts/{{host.ip}}">
                 <span class="badge bg-danger">
                 <i class="ion-android-share"></i>
                 </span>

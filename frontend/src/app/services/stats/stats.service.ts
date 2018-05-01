@@ -13,7 +13,6 @@ export class StatsService {
 
   getBytesPerRange(numberOfRanges: Number, timestampBegin: Number, timestampEnd: Number) : Observable<Array<BytesPerRange>> {
     const bytesProcessedApi: string = api.getBytesProcessed(numberOfRanges, timestampBegin, timestampEnd);
-    console.log(bytesProcessedApi);
     return this.httpClient.get<BytesPerRange[]>(bytesProcessedApi);
   }
 

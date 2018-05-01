@@ -1,9 +1,8 @@
 <div style="display: block;">
   <canvas baseChart
-          [data]="values"
+          [datasets]="labeledValues"
           [labels]="timestamps"
           [options]="{responsive: true}"
-          [legend]="false"
-          [chartType]="'bar'"
-          style="max-height: 700px;"></canvas>
+          [legend]="true"
+          [chartType]="'bar'"></canvas>
 </div>

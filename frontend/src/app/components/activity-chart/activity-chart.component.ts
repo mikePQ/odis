@@ -13,10 +13,18 @@ export class ActivityChartComponent implements OnInit {
   @Input('labels')
   timestamps: Array<any>;
 
+  @Input('name')
+  name: string;
+
+  labeledValues: Array<any> = [];
+
   constructor() {
   }
 
   ngOnInit() {
+    console.log(this.values);
+    console.log(this.name);
+    this.labeledValues = [{data: this.values, label: this.name}];
   }
 
 }

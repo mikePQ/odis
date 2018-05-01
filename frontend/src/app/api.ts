@@ -1,5 +1,3 @@
-import {BytesPerRange} from './domain/stats';
-
 export class Api {
   private baseUrl: string = 'http://localhost:9090/api';
 

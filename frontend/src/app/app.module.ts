@@ -27,7 +27,7 @@ import {DateInputModalComponent} from './components/date-input-modal/date-input-
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'hosts', component: HostsComponent},
-  {path: 'hosts/:id', component: HostComponent}
+  {path: 'hosts/:ip', component: HostComponent}
 ];
 
 @NgModule({

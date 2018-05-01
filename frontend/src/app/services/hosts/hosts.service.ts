@@ -3,7 +3,6 @@ import {Host} from '../../domain/host';
 import {Observable} from 'rxjs/Observable';
 import {HttpClient} from '@angular/common/http';
 import {api} from '../../api';
-import {ArrayObservable} from 'rxjs/observable/ArrayObservable';
 
 @Injectable()
 export class HostsService {
@@ -13,12 +12,11 @@ export class HostsService {
   constructor(private httpClient: HttpClient) {
   }
 
-  getHosts(): Observable<Array<Host>> {
-    return ArrayObservable.of([{name: 'Janusz', ip: '123.12324'}]);
-    //return this.httpClient.get<Host[]>(this.hostsApi);
+  getHosts(hostIp: string = ''): Observable<Array<Host>> {
+    if (!hostIp) {
+      return this.httpClient.get<Host[]>(this.hostsApi);
+    }
+    return this.httpClient.get<Host[]>(`${this.hostsApi}?ip=${hostIp}`);
   }
 
-  getHost(hostId: number): Observable<Host> {
-    return undefined;
-  }
 }
