@@ -12,8 +12,12 @@ class ActivitiesService(private val activitiesRepository: ActivitiesRepository) 
         dataRange?.let { return activitiesRepository.findByTimestampBetween(dataRange.first, dataRange.second)}
         return activitiesRepository.findAll()
     }
+
     fun getAssociatedActivities(ip: String, dataRange: Pair<Long, Long>?): List<NetworkActivity> {
-        dataRange?.let { return activitiesRepository.findActivitiesWithSrcAddressHostIpInTimestampRange(ip, dataRange.first, dataRange.second) }
-        return activitiesRepository.findActivitiesBySrcAddressHostIpOrDestAddressHostIp(ip, ip)
+        return if (dataRange != null) {
+            activitiesRepository.findActivitiesWithSrcAddressHostIpInTimestampRange(ip, dataRange.first, dataRange.second)
+        } else {
+            activitiesRepository.findActivitiesBySrcAddressHostIpOrDestAddressHostIp(ip, ip)
+        }
     }
 }

@@ -25,10 +25,11 @@ class ActivitiesController(private val activitiesService: ActivitiesService) {
         }
         var activitiesList: List<NetworkActivity> = hostIp?.let { activitiesService.getAssociatedActivities(it, dataRange)}
                 ?: activitiesService.getAll(dataRange)
-        if (hostIp == null && peersIps != null)
+        if (hostIp == null && peersIps != null) {
             return ResponseEntity(emptyList(), HttpStatus.BAD_REQUEST)
-        activitiesList = filterByPeersIp(hostIp, peersIps, activitiesList);
+        }
 
+        activitiesList = filterByPeersIp(hostIp, peersIps, activitiesList)
         return ResponseEntity(activitiesList, HttpStatus.OK)
     }
 
@@ -47,10 +48,12 @@ class ActivitiesController(private val activitiesService: ActivitiesService) {
                 ?: activitiesService.getAll(dataRange)
 
 
-        if (hostIp == null && (direction != null || peersIps != null))
+        if (hostIp == null && (direction != null || peersIps != null)) {
             return ResponseEntity(emptyList(), HttpStatus.BAD_REQUEST)
-        activitiesList = filterByDirection(hostIp, direction, activitiesList);
-        activitiesList = filterByPeersIp(hostIp, peersIps, activitiesList);
+        }
+
+        activitiesList = filterByDirection(hostIp, direction, activitiesList)
+        activitiesList = filterByPeersIp(hostIp, peersIps, activitiesList)
 
         val bytesPerTimestamp: Map<Long, Long> = activitiesList.asSequence().groupBy { it.timestamp }.mapValues { it.value.sumByDouble { it.bytes.toDouble() }.toLong() }
 
@@ -78,7 +81,7 @@ class ActivitiesController(private val activitiesService: ActivitiesService) {
                 return activitiesList.filter { it.destAddress.host.ip == ip!! }
             }
         }
-        return activitiesList;
+        return activitiesList
     }
 
     private fun getByteTransferredPerRange(activities: Map<Long, Long>, limit: Long, dataRangeFromRequest: Pair<Long, Long>?): List<BytesPerRange> {

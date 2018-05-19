@@ -2,7 +2,10 @@ package pl.edu.agh.eaiib.io.odis.activities
 
 import kotlin.math.ceil
 
-class BytesPerRangeCalculator(private val activities: Map<Long, Long>, private val limit: Long, private val dataRangeFromRequest: Pair<Long, Long>?) {
+class BytesPerRangeCalculator(private val activities: Map<Long, Long>,
+                              private val limit: Long,
+                              private val dataRangeFromRequest: Pair<Long, Long>?) {
+
     fun calculate(): Map<Pair<Long, Long>, Long> {
         val numberOfRecords = activities.size
         if (numberOfRecords == 0)
@@ -22,10 +25,10 @@ class BytesPerRangeCalculator(private val activities: Map<Long, Long>, private v
         while (begin < end) {
             val partEnd: Long = begin + onePartLength;
             if (partEnd >= end) {
-                mapToReturn.put(Pair(begin, end), activities.asSequence().filter { it.key >= begin && it.key <= end }.sumBy { it.value.toInt() }.toLong())
+                mapToReturn[Pair(begin, end)] = activities.asSequence().filter { it.key in begin..end }.sumBy { it.value.toInt() }.toLong()
                 break
             } else {
-                mapToReturn.put(Pair(begin, partEnd), activities.asSequence().filter { it.key >= begin && it.key < partEnd }.sumBy { it.value.toInt() }.toLong())
+                mapToReturn[Pair(begin, partEnd)] = activities.asSequence().filter { it.key in begin..(partEnd - 1) }.sumBy { it.value.toInt() }.toLong()
             }
             begin = partEnd
         }

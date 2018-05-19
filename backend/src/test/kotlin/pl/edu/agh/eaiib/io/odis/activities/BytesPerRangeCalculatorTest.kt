@@ -8,23 +8,24 @@ internal class BytesPerRangeCalculatorTest {
 
     @Test
     fun calculateLimit1() {
-        val limit: Long = 1;
+        val limit: Long = 1
         val activities = mutableMapOf<Long, Long>()
-        activities.put(1, 100)
-        activities.put(100, 100)
+        activities[1] = 100
+        activities[100] = 100
         val bytesPerRangeCalculator = BytesPerRangeCalculator(activities.toMap(), limit, null)
         assertEquals(mapOf(Pair(1, 100) to 200).toString(), bytesPerRangeCalculator.calculate().toString())
     }
 
     @Test
     fun calculateLimit10() {
-        val limit: Long = 10;
+        val limit: Long = 10
         val activities = mutableMapOf<Long, Long>()
-        activities.put(1, 100)
-        activities.put(30, 300)
-        activities.put(50, 300)
-        activities.put(70, 300)
-        activities.put(100, 100)
+        activities[1] = 100
+        activities[30] = 300
+        activities[50] = 300
+        activities[70] = 300
+        activities[100] = 100
+
         val bytesPerRangeCalculator = BytesPerRangeCalculator(activities.toMap(), limit, null)
         val returnedMap = bytesPerRangeCalculator.calculate()
         assertEquals(limit.toInt(), returnedMap.size)
@@ -43,15 +44,16 @@ internal class BytesPerRangeCalculatorTest {
 
     @Test
     fun calculateLimit10_2() {
-        val limit: Long = 10;
+        val limit: Long = 10
         val activities = mutableMapOf<Long, Long>()
-        activities.put(0, 100)
-        activities.put(5, 150)
-        activities.put(30, 300)
-        activities.put(50, 300)
-        activities.put(58, 300)
-        activities.put(70, 300)
-        activities.put(100, 100)
+        activities[0] = 100
+        activities[5] = 150
+        activities[30] = 300
+        activities[50] = 300
+        activities[58] = 300
+        activities[70] = 300
+        activities[100] = 100
+
         val bytesPerRangeCalculator = BytesPerRangeCalculator(activities.toMap(), limit, null)
         val returnedMap = bytesPerRangeCalculator.calculate()
         assertEquals(limit.toInt(), returnedMap.size)
@@ -70,16 +72,17 @@ internal class BytesPerRangeCalculatorTest {
 
     @Test
     fun calculateLimit10_3_DataRangeRequested() {
-        val limit: Long = 5;
+        val limit: Long = 5
         val activities = mutableMapOf<Long, Long>()
-        activities.put(0, 100)
-        activities.put(5, 150)
-        activities.put(30, 300)
-        activities.put(50, 300)
-        activities.put(58, 300)
-        activities.put(59, 300)
-        activities.put(70, 300)
-        activities.put(100, 100)
+        activities[0] = 100
+        activities[5] = 150
+        activities[30] = 300
+        activities[50] = 300
+        activities[58] = 300
+        activities[59] = 300
+        activities[70] = 300
+        activities[100] = 100
+
         val bytesPerRangeCalculator = BytesPerRangeCalculator(activities.toMap(), limit, Pair(25, 65))
         val returnedMap = bytesPerRangeCalculator.calculate()
         assertEquals(limit.toInt(), returnedMap.size)
