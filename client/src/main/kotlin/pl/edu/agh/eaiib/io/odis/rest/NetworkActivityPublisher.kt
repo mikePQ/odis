@@ -53,6 +53,7 @@ class NetworkActivityPublisher(serverBaseUrl: String,
             val elements = elementsToPublish.toList()
             val result = publish(elements)
             result.subscribe()
+            print("Data published")
             lastPublishMillis = System.currentTimeMillis()
             elementsToPublish.clear()
         } catch (e: Exception) {

@@ -5,12 +5,14 @@ import pl.edu.agh.eaiib.io.odis.activities.ActivitiesRepository
 
 @Service
 class HostsService(private val activitiesRepository: ActivitiesRepository) {
-    fun getAll(): List<Host> = activitiesRepository.findAll()
-            .asSequence()
-            .map { it.srcAddress.host }
-            .toSet()
-            .asSequence()
-            .toList()
+    fun getAll() : List<Host> {
+        val allHosts: MutableSet<Host> = mutableSetOf();
+
+        val allActivities = activitiesRepository.findAll();
+        allActivities.asSequence().forEach { allHosts.add(it.srcAddress.host) }
+        allActivities.asSequence().forEach { allHosts.add(it.destAddress.host) }
+        return allHosts.asSequence().toList()
+    }
 
     fun getHostWithIp(ip: String): List<Host> {
         return getAll().filter { it.ip == ip }
