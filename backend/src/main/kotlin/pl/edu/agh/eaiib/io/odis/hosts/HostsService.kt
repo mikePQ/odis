@@ -6,9 +6,9 @@ import pl.edu.agh.eaiib.io.odis.activities.ActivitiesRepository
 @Service
 class HostsService(private val activitiesRepository: ActivitiesRepository) {
     fun getAll() : List<Host> {
-        val allHosts: MutableSet<Host> = mutableSetOf();
+        val allHosts: MutableSet<Host> = mutableSetOf()
 
-        val allActivities = activitiesRepository.findAll();
+        val allActivities = activitiesRepository.findAll()
         allActivities.asSequence().forEach { allHosts.add(it.srcAddress.host) }
         allActivities.asSequence().forEach { allHosts.add(it.destAddress.host) }
         return allHosts.asSequence().toList()

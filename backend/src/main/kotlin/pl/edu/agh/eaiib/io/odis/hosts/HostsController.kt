@@ -18,7 +18,7 @@ class HostsController(private val hostsService : HostsService) {
 
 @RestController
 @RequestMapping("/api/localHosts")
-class LocalHostController(private val localHostsService : LocalHostsService) {
+class LocalHostsController(private val localHostsService : LocalHostsService) {
     @GetMapping
     fun getAllLocalHosts(): ResponseEntity<List<Host>> {
         return ResponseEntity(localHostsService.getAll(), HttpStatus.OK)
