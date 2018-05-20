@@ -107,7 +107,7 @@ class ActivitiesControllerTests {
     }
 
     @Test
-    fun testIllegalTimestampRange() {
+    fun testGetActivitiesIllegalTimestampRange() {
         mockMvc.perform(get("/api/activities")
                 .param("fromTime", System.currentTimeMillis().toString()))
                 .andExpect(status().isBadRequest)
@@ -125,6 +125,58 @@ class ActivitiesControllerTests {
                 .param("toTime", dataRange.second.toString()))
                 .andExpect(status().isOk)
                 .andExpect(content().json(mapper.writeValueAsString(activities)))
+    }
+
+    @Test
+    fun testGetTotalAmountOfDataProcessed() {
+        val activities = randomActivities(50)
+        doReturn(activities).`when`(service).getAll(any())
+
+        mockMvc.perform(get("/api/activities/bytes")
+                .param("limit", 10.toString()))
+                .andExpect(status().isOk)
+    }
+
+    @Test
+    fun testGetAmountOfDataProcessedIllegalTimestampRange() {
+        mockMvc.perform(get("/api/activities/bytes")
+                .param("fromTime", System.currentTimeMillis().toString()))
+                .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun testGetAmountOfDataProcessedIllegalParameters() {
+        val peersIps = random(String::class.java)
+        mockMvc.perform(get("/api/activities/bytes")
+                .param("peersIps", peersIps))
+                .andExpect(status().isBadRequest)
+    }
+
+    @Test
+    fun testGetTotalAmountOfDataProcessedForHosts() {
+        val activities = randomActivities(50)
+        doReturn(activities).`when`(service).getAll(any())
+
+        val hostIp = random(String::class.java)
+        val peersIps = random(String::class.java)
+
+        mockMvc.perform(get("/api/activities/bytes")
+                .param("limit", 10.toString())
+                .param("hostIp", hostIp)
+                .param("peersIps", peersIps))
+                .andExpect(status().isOk)
+    }
+
+    @Test
+    fun testGetTotalAmountOfDataProcessedForTimestampRange() {
+        val activities = randomActivities(50)
+        doReturn(activities).`when`(service).getAll(any())
+
+        mockMvc.perform(get("/api/activities/bytes")
+                .param("limit", 10.toString())
+                .param("fromTime", randomTimestamp().toString())
+                .param("toTime", randomTimestamp().toString()))
+                .andExpect(status().isOk)
     }
 
     private fun randomTimestamp(): Long {
