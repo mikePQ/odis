@@ -9,7 +9,7 @@ import java.util.concurrent.ConcurrentLinkedQueue
 import java.util.concurrent.Executor
 import java.util.concurrent.Executors
 
-class NetworkActivityPublisher(serverBaseUrl: String,
+open class NetworkActivityPublisher(serverBaseUrl: String,
                                private val publishPeriod: Int) : MonitorListener {
 
     private val api: NetworkActivitiesApi = NetworkActivitiesApi.create(serverBaseUrl)
@@ -53,7 +53,7 @@ class NetworkActivityPublisher(serverBaseUrl: String,
             val elements = elementsToPublish.toList()
             val result = publish(elements)
             result.subscribe()
-            print("Data published")
+
             lastPublishMillis = System.currentTimeMillis()
             elementsToPublish.clear()
         } catch (e: Exception) {
@@ -63,6 +63,10 @@ class NetworkActivityPublisher(serverBaseUrl: String,
 
     private fun publish(networkActivities: List<NetworkActivity>): Flowable<Any> {
         val activities = NetworkActivityDTO.from(networkActivities)
+        return publishImpl(activities)
+    }
+
+    protected open fun publishImpl(activities: List<NetworkActivityDTO>): Flowable<Any> {
         return api.addActivities(activities)
     }
 }

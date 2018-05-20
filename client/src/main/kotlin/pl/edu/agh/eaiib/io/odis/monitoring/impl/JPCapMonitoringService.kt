@@ -5,10 +5,12 @@ import pl.edu.agh.eaiib.io.odis.domain.NetworkInterface
 import pl.edu.agh.eaiib.io.odis.monitoring.MonitoringFilter
 import java.util.function.Consumer
 
-class JPCapMonitoringService : AbstractMonitoringService() {
+open class JPCapMonitoringService(private val devicesProvider: DevicesProvider = object : DevicesProvider {
+    override fun getDevices(): Array<jpcap.NetworkInterface> = JpcapCaptor.getDeviceList()
+}) : AbstractMonitoringService() {
 
     override fun startMonitoringInterfaceImpl(networkInterface: NetworkInterface, filter: MonitoringFilter) {
-        val capture = JPCapInterfaceCapture.fromInterface(JPCapEntitiesConverter.toJPCapInterface(networkInterface))
+        val capture = createInterfaceCapture(networkInterface)
         capture.addPacketConsumer(Consumer {
             val packet = JPCapEntitiesConverter.fromJPCapPacket(it)
             notifyPacketReceived(packet, networkInterface)
@@ -17,7 +19,7 @@ class JPCapMonitoringService : AbstractMonitoringService() {
     }
 
     override fun getAvailableInterfaces(): List<NetworkInterface> {
-        val networkInterfaces = JpcapCaptor.getDeviceList()
+        val networkInterfaces = devicesProvider.getDevices()
         return networkInterfaces.map { JPCapEntitiesConverter.fromJPCapInterface(it) }
     }
 
@@ -25,4 +27,11 @@ class JPCapMonitoringService : AbstractMonitoringService() {
         return getAvailableInterfaces().firstOrNull { interfaceId == it.getId() }
     }
 
+    protected open fun createInterfaceCapture(networkInterface: NetworkInterface): JPCapInterfaceCapture {
+        return JPCapInterfaceCapture.fromInterface(JPCapEntitiesConverter.toJPCapInterface(networkInterface))
+    }
+
+    interface DevicesProvider {
+        fun getDevices(): Array<jpcap.NetworkInterface>
+    }
 }

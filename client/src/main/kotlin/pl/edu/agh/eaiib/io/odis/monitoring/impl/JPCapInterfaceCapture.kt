@@ -9,7 +9,7 @@ import java.util.concurrent.Executors
 import java.util.concurrent.LinkedBlockingDeque
 import java.util.function.Consumer
 
-class JPCapInterfaceCapture private constructor(private val captor: JpcapCaptor) : AutoCloseable {
+open class JPCapInterfaceCapture(private val captor: JpcapCaptor?) : AutoCloseable {
 
     private val queue = LinkedBlockingDeque<Packet>()
     private val handlers = CopyOnWriteArrayList<Consumer<Packet>>()
@@ -26,16 +26,16 @@ class JPCapInterfaceCapture private constructor(private val captor: JpcapCaptor)
     }
 
     fun start(monitoringFilter: MonitoringFilter = MonitoringFilter.EmptyFilter) {
-        captor.setFilter(monitoringFilter.getFilterConfig(), false)
+        captor?.setFilter(monitoringFilter.getFilterConfig(), false)
         EXECUTOR.execute(captureWorker)
-        captor.loopPacket(-1) { p -> queue.offer(p) }
+        captor?.loopPacket(-1) { p -> queue.offer(p) }
     }
 
     override fun close() {
-        captor.close()
+        captor?.close()
     }
 
-    fun addPacketConsumer(packetConsumer: Consumer<Packet>) {
+    fun addPacketConsumer(packetConsumer: Consumer<Packet>?) {
         handlers.add(packetConsumer)
     }
 

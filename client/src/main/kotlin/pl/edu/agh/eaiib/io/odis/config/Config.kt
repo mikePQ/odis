@@ -17,8 +17,6 @@ class Config(val serverBaseUrl: String,
         private const val MONITORED_INTERFACES_KEY = "monitor.interfaces"
         private const val MONITORING_FILTER_KEY = "monitor.filter"
 
-        fun fromFile(configFilePath: Path): Config = fromInputStream(Files.newInputStream(configFilePath))
-
         fun fromInputStream(inputStream: InputStream): Config {
             val properties = Properties()
             properties.load(inputStream)

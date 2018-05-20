@@ -31,7 +31,7 @@ abstract class AbstractMonitoringService : MonitoringService {
 
     abstract fun startMonitoringInterfaceImpl(networkInterface: NetworkInterface, filter: MonitoringFilter)
 
-    protected fun notifyPacketReceived(packet: Packet, networkInterface: NetworkInterface) {
+    fun notifyPacketReceived(packet: Packet, networkInterface: NetworkInterface) {
         monitorListeners.filter { it.monitorsInterface(networkInterface) }
                 .forEach { it.packetReceived(packet, networkInterface) }
     }
