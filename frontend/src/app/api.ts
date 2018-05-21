@@ -5,6 +5,10 @@ export class Api {
     return `${this.baseUrl}/hosts`;
   }
 
+  getLocalHosts(): string {
+    return `${this.baseUrl}/localHosts`;
+  }
+
   getBytesProcessed(numberOfRanges: Number, timestampBegin: Number, timestampEnd: Number): string {
     return `${this.baseUrl}/activities/bytes?fromTime=${timestampBegin}&toTime=${timestampEnd}&limit=${numberOfRanges}`;
   }

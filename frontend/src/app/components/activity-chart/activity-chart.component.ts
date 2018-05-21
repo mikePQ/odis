@@ -1,11 +1,12 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, Input, OnChanges, OnInit, SimpleChanges, ViewChild} from '@angular/core';
+import {BaseChartDirective} from 'ng2-charts';
 
 @Component({
   selector: 'app-activity-chart',
   templateUrl: './activity-chart.component.html',
   styleUrls: ['./activity-chart.component.css']
 })
-export class ActivityChartComponent implements OnInit {
+export class ActivityChartComponent implements OnInit, OnChanges {
 
   @Input('values')
   values: Array<any>;
@@ -22,6 +23,8 @@ export class ActivityChartComponent implements OnInit {
   colors: Array<any> = [];
 
   labeledValues: Array<any> = [];
+
+  @ViewChild('baseChart') chart: BaseChartDirective;
 
   constructor() {
   }
@@ -42,4 +45,21 @@ export class ActivityChartComponent implements OnInit {
     }];
   }
 
+  reloadChart() {
+    if (this.chart !== undefined && this.chart.chart !== undefined) {
+      this.chart.chart.destroy();
+      this.chart.chart = 0;
+
+      this.chart.datasets = this.labeledValues;
+      this.chart.labels = this.timestamps;
+      this.chart.ngOnInit();
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log("OnChanges")
+    console.log(this.values)
+    this.labeledValues = [{data: this.values, label: this.name}];
+    this.reloadChart()
+  }
 }

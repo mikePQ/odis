@@ -29,4 +29,10 @@ class LocalHostsController(private val localHostsService : LocalHostsService) {
         val added =  localHostsService.saveHost(localHost)
         return ResponseEntity(added, HttpStatus.OK)
     }
+
+    @DeleteMapping
+    fun deleteLocalHost(@RequestParam hostIp: String): ResponseEntity<String> {
+        localHostsService.deleteHost(hostIp)
+        return ResponseEntity("Host deleted", HttpStatus.OK)
+    }
 }

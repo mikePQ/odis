@@ -1,4 +1,4 @@
-export interface Host {
+export class Host {
   ip: string;
   name: string;
 }

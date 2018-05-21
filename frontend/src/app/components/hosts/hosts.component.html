@@ -6,6 +6,10 @@
           <h3 class="card-title">Hosty</h3>
           <div class="card-tools">
             <div class="input-group input-group-sm">
+              <button class="btn btn-sm btn-outline-danger ml-5" (click)="open()">
+                <i class="ion-ios-toggle"></i>
+                Uzytkownik [{{userSelected.name}}]
+              </button>
               <input type="text" class="form-control float-right clear-border-radius mr-2" placeholder="Nazwa"
                      [(ngModel)]="namePattern">
               <input type="text" class="form-control float-right clear-border-radius" placeholder="Adres IPs"
@@ -39,7 +43,7 @@
               <td>{{host.name}}</td>
               <td>{{host.ip}}</td>
               <td style="text-align: center">
-                <a routerLink="/hosts/{{host.ip}}">
+                <a routerLink="/hosts/{{host.ip}}/{{userSelected.ip}}">
                 <span class="badge bg-danger">
                 <i class="ion-android-share"></i>
                 </span>

@@ -9,4 +9,5 @@ class LocalHostsService(private val localHostsRepository: LocalHostsRepository) 
     }
 
     fun saveHost(host: Host): Host = localHostsRepository.save(host)
+    fun deleteHost(ip: String) = localHostsRepository.deleteHostByIp(ip)
 }

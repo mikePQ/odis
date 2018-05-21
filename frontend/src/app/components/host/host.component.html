@@ -17,7 +17,16 @@
               <td class="text-uppercase text-bold" style="width: 50%">Adres IP</td>
               <td>{{host?.ip}}</td>
             </tr>
+            <tr *ngIf="peersIps.length">
+              <td class="text-uppercase text-bold" style="width: 50%">Peers IP</td>
+              <td>{{peersIps}}</td>
+            </tr>
           </table>
+          <form (submit)="recalculate()">
+            <label class='labels' for="peersIps">Peers IP(s):</label>
+            <input type="text"  [(ngModel)]="peersIps" name="peersIps" id="peersIps">
+            <button class="btn-bg float-right" type="submit">Aktualizuj</button>
+          </form>
         </div>
       </div>
     </div>

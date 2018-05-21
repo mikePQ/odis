@@ -2,6 +2,9 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Host} from '../../domain/host';
 import {HostsService} from '../../services/hosts/hosts.service';
 import {Pager, PaginationService} from '../../services/pagination.service';
+import {DateInputModalComponent} from '../date-input-modal/date-input-modal.component';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {HostInputComponent} from '../host-input/host-input.component';
 
 @Component({
   selector: 'app-hosts',
@@ -29,13 +32,19 @@ export class HostsComponent implements OnInit {
 
   @Input()
   ipPattern: string;
+  userSelected: Host = {'ip' : '', name : 'Wszyscy'};
 
   constructor(private hostsService: HostsService,
-              private paginationService: PaginationService) {
+              private paginationService: PaginationService,
+              private modalService: NgbModal) {
   }
 
   ngOnInit() {
-    this.hostsService.getHosts().subscribe(hosts => {
+    this.getHosts();
+  }
+
+  private getHosts(ip: string = '') {
+    this.hostsService.getHosts(ip).subscribe(hosts => {
       this.hosts = hosts;
       this.updateHosts();
     });
@@ -83,6 +92,17 @@ export class HostsComponent implements OnInit {
 
     this.pager = this.paginationService.getPager(this.filteredHosts.length, page, 10);
     this.pagedHosts = this.filteredHosts.slice(this.pager.startIndex, this.pager.endIndex + 1);
+  }
+
+  open() {
+    const modalRef = this.modalService.open(HostInputComponent);
+    modalRef.componentInstance.notify.subscribe((userSelected) => {
+      this.userSelected = userSelected;
+      this.getHosts(this.userSelected.ip);
+    });
+    modalRef.componentInstance.notifyRemove.subscribe((userToDelete) => {
+      this.hostsService.removeHost(userToDelete).subscribe(() => console.log('Host removed'));
+    });
   }
 }
 

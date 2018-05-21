@@ -5,4 +5,7 @@ import org.springframework.stereotype.Repository
 
 @Repository
 interface LocalHostsRepository : MongoRepository<Host, String>
+{
+    fun deleteHostByIp(ip: String)
+}
 

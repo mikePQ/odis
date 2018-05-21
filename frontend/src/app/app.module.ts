@@ -22,11 +22,14 @@ import {StatsService} from './services/stats/stats.service';
 import {DlDateTimePickerDateModule} from 'angular-bootstrap-datetimepicker';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {DateInputModalComponent} from './components/date-input-modal/date-input-modal.component';
+import { HostInputComponent } from './components/host-input/host-input.component';
+import { HostTableElementComponent } from './components/host-input/host-table-element/host-table-element.component';
 
 const appRoutes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'hosts', component: HostsComponent},
-  {path: 'hosts/:ip', component: HostComponent}
+  {path: 'hosts/:ip', component: HostComponent},
+  {path: 'hosts/:ip/:peerIp', component: HostComponent}
 ];
 
 @NgModule({
@@ -40,7 +43,9 @@ const appRoutes: Routes = [
     BasicActivityComponent,
     ActivityChartComponent,
     PagesNavComponent,
-    DateInputModalComponent
+    DateInputModalComponent,
+    HostInputComponent,
+    HostTableElementComponent
   ],
   imports: [
     BrowserModule,
@@ -53,7 +58,7 @@ const appRoutes: Routes = [
     NgbModule.forRoot()
   ],
   entryComponents: [
-    DateInputModalComponent
+    DateInputModalComponent, HostInputComponent
   ],
   providers: [HostsService, PaginationService, StatsService],
   bootstrap: [AppComponent]

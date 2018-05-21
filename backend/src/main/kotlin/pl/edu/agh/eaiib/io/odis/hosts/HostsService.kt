@@ -15,6 +15,10 @@ class HostsService(private val activitiesRepository: ActivitiesRepository) {
     }
 
     fun getHostWithIp(ip: String): List<Host> {
-        return getAll().filter { it.ip == ip }
+        val allHostsWithIp: MutableSet<Host> = mutableSetOf();
+        val associatedActivites = activitiesRepository.findAll().filter { it.srcAddress.host.ip == ip || it.destAddress.host.ip == ip }
+        associatedActivites.asSequence().forEach { allHostsWithIp.add(it.srcAddress.host) }
+        associatedActivites.asSequence().forEach { allHostsWithIp.add(it.destAddress.host) }
+        return allHostsWithIp.asSequence().toList()
     }
 }
