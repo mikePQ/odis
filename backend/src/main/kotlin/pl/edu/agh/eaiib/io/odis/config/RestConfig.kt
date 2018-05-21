@@ -21,6 +21,8 @@ class RestConfig {
     fun configureCORS() = object : WebMvcConfigurer {
         override fun addCorsMappings(registry: CorsRegistry) {
             registry.addMapping("/**")
+                    .allowedOrigins("*")
+                    .allowedMethods("GET", "POST", "PUT", "DELETE")
         }
     }
 
