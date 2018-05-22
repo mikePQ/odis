@@ -1,5 +1,6 @@
-<div class="row border">
-  <p class="col-md-8">{{host.name}} [{{host.ip}}]</p>
-  <button class="col-md-2 btn-sm btn-success" (click)="returnHost()"> Wybierz</button>
-  <button class="col-md-2 btn-sm btn-danger" (click)="removeHost()"> Usun</button>
+<div class="container">
+  <p class="text-center">{{host.name}} <span *ngIf="host.ip.length>0">[{{host.ip}}] </span>
+    <button class="btn-sm btn-danger"><span aria-hidden="true">&times;</span></button>
+    <button class="btn btn-sm btn-dark float-right" (click)="returnHost()"> Wybierz</button>
+  </p>
 </div>
