@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        kotlinVersion = '1.2.20'
+        kotlinVersion = '1.2.71'
         springBootVersion = '2.0.1.RELEASE'
         junit_platform_version = '1.1.0'
         junit_jupiter_version = '5.1.0'
@@ -24,7 +24,7 @@ apply plugin: 'io.spring.dependency-management'
 
 group = 'pl.edu.agh.eaiib.odis'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = 1.8
+
 compileKotlin {
     kotlinOptions {
         freeCompilerArgs = ["-Xjsr305=strict"]
